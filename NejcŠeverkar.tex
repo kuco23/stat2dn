@@ -26,6 +26,7 @@
 \newcommand{\K}{\mathbb K}
 \newcommand{\D}{\mathbb D}
 \newcommand{\J}{\mathscr J}
+\newcommand{\T}{\mathscr T}
 
 \newcommand{\mul}{\text{mul}}
 \newcommand{\add}{\text{add}}
@@ -133,37 +134,119 @@ Naj bodo $X_i \sim P_\mu$ NEP. Po Rao-Blackwellevem izreku lahko najdemo NCEND k
 nepristranske cenilke $\ind_{\{X_1 \leq 5\}}$  pogojno na kompletno in zadostno statistiko
 $$\bar{X}^n = \frac{1}{n} \sum_{i=1}^n X_i.$$
 Označimo $Y = \bar{X}^n - \mu$ in definirajmo
-$$\tilde{X} = X_1 - \rho Y, \text{ kjer je } \rho = P[X_1Y] / \sigma(Y)^2.$$
+$$\tilde{X} = X_1 - \zeta Y, \text{ kjer je } \zeta = P[X_1Y] / \sigma(Y)^2.$$
 Zanjo velja
-$$P[\tilde{X}Y] = P[X_1Y] - \rho P[Y^2] = 0,$$
+$$P[\tilde{X}Y] = P[X_1Y] - \zeta P[Y^2] = 0,$$
 torej sta $\tilde{X}$ in $Y$ nekorelirani, ker pa sta normalni, sta tudi neodvisni. 
 Sedaj lahko zapišemo
 \begin{equation*}
 \begin{aligned}
 P[\ind_{\{X_1 \leq 5\}} \mid \bar{X}^n = t] &= P(X_1 \leq 5 \mid \bar{X}^n = t) 
-= P(\tilde{X} + \rho Y \leq 5 \mid Y + \mu = t) = P(\tilde{X} + \rho (t - \mu) \leq 5) \\
-&= P(X_1 - \rho (\bar{X}^n - \mu) + \rho(t - \mu) \leq 5) = P(X_1 - \rho\bar{X}^n \leq 5 + \rho t).
+= P(\tilde{X} + \zeta Y \leq 5 \mid Y + \mu = t) = P(\tilde{X} + \zeta (t - \mu) \leq 5) \\
+&= P(X_1 - \zeta (\bar{X}^n - \mu) + \zeta(t - \mu) \leq 5) = P(X_1 - \zeta \bar{X}^n \leq 5 + \zeta t).
 \end{aligned}
 \end{equation*}
 Konkretno:
 $$P[X_1Y] = P[(\sigma Z_1 + \mu)Y] = P[\sigma Z_1 Y] = P[\sigma Z_1 \sum_{i=1}^n \frac{\sigma}{n} Z_i] = \frac{\sigma^2}{n} P[Z_1^2]  = \frac{\sigma^2}{n},$$
-torej skupaj z dejstvom $\sigma(Y) = \frac{\sigma}{\sqrt{n}}$ dobimo $\rho = 1$ in zaporedje cenilk
+torej skupaj z dejstvom $\sigma(Y) = \frac{\sigma}{\sqrt{n}}$ dobimo $\zeta = 1$ in zaporedje cenilk
 $$U_n(\bar{x}^n) = P(\sigma (1 + 1/\sqrt{n})Z \leq 5 + \bar{x}^n) = \Phi\left(\frac{5 + \bar{x}^n}{\sigma(1 + 1/\sqrt{n})}\right)$$
 
-\section{4}
-\subsection{a)}
-Upoštevamo Neuman-Pearsonova pogoja
+
+\section{3}
+\subsection{}
+Ker je
+$$
+f(k; \vartheta) = -\frac{\vartheta^k}{k\ln(1-\vartheta)} = -\frac{e^{k\ln(\vartheta)}}{k\ln(1-\vartheta)} \implies 
+f(k_1, \dots, k_n; \vartheta) = (-\ln(1-\vartheta))^{-n} \prod_{i=1}^n k_i^{-1} e^{\ln(\vartheta) \sum_{i=1}^n k_i}
+$$
+in $\ln((0,1))  = (-\infty, 0) \in \T_{EVK} \smallsetminus \{\emptyset\}$, je to eksponentni model s polnim rangom, 
+torej je statistika 
+$$T_n(k_1, \dots, k_n) = \sum_{i=1}^n k_i$$
+kompletna zadostna.
+
+\subsection{}
+Ker imamo eksponenten model s funkcijo $Q = \ln$, ki je strogo naraščajoča na $(0,1)$, lahko uporabimo Neuman-Pearsonovo
+lemo za konstrukcijo enakomerno najmočnejših randomiziranih preizkusov. 
+Ker ima model druge momente si lahko pomagamo tudi z normalnimi aproksimacijami (ali asimptotično normalnostjo).
+
+\subsection{}
+Poskušajmo postopati z Neuman-Pearsonovo lemo. Označimo torej $\vartheta_0 = 0.7$ in $\alpha = 0.05$.
+Potem imamo enakomerno najmočnejši randomiziran preizkus za $\vartheta \leq \vartheta_0$ proti alternativi
+$\vartheta \ge \vartheta_0$ v obliki
+$$
+\phi(k_1, \dots, k_n)= 
+\begin{cases}
+1 \mid & T_n(k_1, \dots, k_n) > C \\
+\gamma \mid &  T_n(k_1, \dots, k_n) = C \\
+0 \mid &  T_n(k_1, \dots, k_n) < C
+\end{cases},
+$$
+kjer določimo $C \in\N$ in $\gamma \in [0,1)$ enolično s pogojem
+$$\beta(\vartheta_0) = P_{\vartheta_0}[\Phi] = P_{\vartheta_0}(T_n > C) + \gamma P_{\vartheta_0}(T_n = C) = \alpha.$$
+Idealno bi bilo imeti porazdelitev $T_n$, a ta vključuje izračun vsot, ki v splošnem nimajo zaključene oblike ($\sum_{k=1}^d \vartheta^k / k$). Če bi imeli dovolj majhen vzorec, to tudi ne bi bil problem, saj bi izračunali posamezne vrednosti gostote $T_n$ z brute-force varianto. Ker pa je vzorec velikosti $n=100$ relativno velik, tega ne moremo izvesti. Lahko pa zato $T_n$ aproksimiramo z normalno porazdelitvijo (po CLI). Računamo
+\begin{equation*}
+\begin{aligned}
+\mu_\vartheta 
+&:= P_{\vartheta}[\id] 
+= -\frac{1}{\ln(1 - \vartheta)} \sum_{k\in\N} \vartheta^k 
+= -\frac{\vartheta}{(1 - \vartheta)} \frac{1}{\ln(1 - \vartheta)} \\
+\sigma_\vartheta^2 
+&:= V_{\vartheta}[\id] 
+= P_{\vartheta}[\id^2] - P_{\vartheta}[\id]^2 
+= -\frac{1}{\ln(1 - \vartheta)} \sum_{k\in\N} k\vartheta^k - \mu_\vartheta^2 
+= -\frac{1}{\ln(1 - \vartheta)} \frac{\vartheta}{(1-\vartheta)^2} - \mu_\vartheta^2.
+\end{aligned}
+\end{equation*}
+Označimo NEP model
+$$\tilde{P}_\vartheta := N(\mu_\vartheta, \sigma_\vartheta^2)^{\times n}.$$
+Sedaj lahko ocenimo gostoto statistike $T_n$ kot
+$$P_\vartheta(T_n = k) \approx \tilde{P}_\vartheta(T_n \leq k) - \tilde{P}_\vartheta(T_n \leq k-1).$$
+Aproksimirajmo:
+\begin{equation*}
+\begin{aligned}
+\alpha &= 1 - P_{\vartheta_0}(T_n \leq C) + \gamma P_{\vartheta_0}(T_n = C) \\
+&\approx 1 - \tilde{P}_{\vartheta_0}(T_n \leq C) + \gamma \tilde{P}_{\vartheta_0}(T_n \in [C-1, C]) \\
+&= 1 - \Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) + \gamma\left(
+\Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) -
+\Phi\left(\frac{(C-1)/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right)
+\right).
+\end{aligned}
+\end{equation*}
+Vzamemo prvi $C\in\N$, za katerega je 
+$$\gamma = \frac{\alpha +
+\Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) - 1}
+{\Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) -
+\Phi\left(\frac{(C-1)/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right)} \in [0,1).$$
+Dobimo $C = 221$ in $\gamma \approx 0.143$. Na spodnji sliki je funkcija moči, kjer so spet vse vrednosti aproksimirane z normalno porazdelitvijo.
+\begin{center}
+\begin{figure}[h]
+\includegraphics[width=18cm]{graphics/FunkcijaMoci.png}
+\caption{Funkcija moči dobljenega testa.}
+\end{figure}
+\end{center}
+
+\section{}
+\subsection{}
+Označimo spet
+$$T(x_1, \dots, x_n) = \sum_{i=1}^n x_i.$$
+Neuman-Pearsonov test za hipotezo $p = p_0$ proti alternativi ima obliko
+$$
+\phi(x)= 
+\begin{cases}
+1 &\mid T(x) \in (C_1(p_0), C_2(p_0)) \\
+\gamma_j(p_0)  &\mid  T(x) = C_j(p_0) \\
+0 &\mid  T(x) \notin [C_1(p_0), C_2(p_0)]
+\end{cases},
+$$
+kjer so vrednosti $C_j(p_0)$, $\gamma_j(p_0)$ določene z zahtevo
 $$P_{p_0}[\phi_{p_0}] = \alpha \quad \text{in} \quad \frac{d}{dp_0} P_{p_0}[\phi_{p_0}] = 0.$$
-Označimo $T(x_1, \dots, x_n) = \sum_{i=1}^n x_i$ in izrazimo enačbi:
+Izračunamo 
 \begin{equation*}
 \begin{aligned}
 P_{p_0}[\phi_{p_0}] &= P_{p_0}(T< C_1(p_0)) + P_{p_0}(T > C_2(p_0)) 
 + \gamma_1(p_0) P_{p_0}(T = C_1(p_0)) + \gamma_2(p_0) P_{p_0}(T = C_2(p_0)) \\
-&= \Bin(n,p_0)(\{0, \dots, C_1(p_0)-1, C_2(p_0)+1, \dots, n\})  \\
-&\quad + \gamma_1(p_0) \Bin(n,p_0)(\{C_1(p_0)\}) + \gamma_2(p_0) \Bin(n,p_0)(\{(C_2(p_0)\}) \\
 &= 1 - \sum_{i=C_1(p_0)}^{C_2(p_0)} \binom{n}{i} p_0^i (1-p_0)^{n-i}
-+ \sum_{i\in\{1,2\}} \gamma_i(p_0) \binom{n}{C_i(p_0)} p_0^{C_i(p_0)} (1-p_0)^{n -C_i(p_0)} \\
-&= \alpha
++ \sum_{i\in\{1,2\}} \gamma_i(p_0) \binom{n}{C_i(p_0)} p_0^{C_i(p_0)} (1-p_0)^{n -C_i(p_0)}
 \end{aligned}
 \end{equation*}
 in
@@ -172,16 +255,68 @@ in
 \frac{d}{dp_0} P_{p_0}[\phi_{p_0}] &= 
 - \sum_{i=C_1(p_0)}^{C_2(p_0)} \binom{n}{i}\left(i p_0^{i-1} (1-p_0)^{n-i} - (n-i) p_0^i (1-p_0)^{n-i-1}\right) \\
 &\quad + \sum_{i\in\{1,2\}} \gamma_i(p_0) \binom{n}{C_i(p_0)} \left(C_i(p_0) p_0^{C_i(p_0-1)} (1-p_0)^{n -C_i(p_0)} -
-(n-C_i(p_0)) p_0^{C_i(p_0-1)} (1-p_0)^{n-C_i(p_0)-1}\right) \\
-&= 0.
+(n-C_i(p_0)) p_0^{C_i(p_0-1)} (1-p_0)^{n-C_i(p_0)-1}\right).
 \end{aligned}
 \end{equation*}
 Če privzamemo, da so vse vrednosti razen $\gamma_i(p_0)$ konstantne, je to sistem dveh linearnih enačb za $\gamma_i(p_0)$.
 To, da so ostale stvari konstantne dosežemo tako, da testiramo vsak $C_1(p_0) \in \{0,\dots,n-1\}$ in $C_2(p_0) \in \{C_1(p_0)+1,\dots,n\}$ posebej. Vzamemo prve vrednosti, pri katerih velja $0 \leq \gamma_i(p_0) \leq 1$ za $i=1,2$.
-\\\\
+\begin{center}
+\begin{figure}[h]
+\includegraphics[width=18cm]{graphics/C1C2.png}
+\caption{$C_1(p)$ in $C_2(p)$  na diskretizaciji $(0,1)$ na $1000$ točkah.}
+\end{figure}
+\end{center}
+
 Za interval zaupanja definiramo
-$$I(x) := \{p \in (0,1) \mid \phi_p(x) = 0\} = \{p \in (0,1) \mid T(x) \in [C_1(p), C_2(p)]\}.$$
-Po definiciji / izpeljavi randomiziranega testa $\phi_p$, velja
-$$P_p(p \in I) = P_p(\phi_p = 0) \geq 1 - P_p[\phi_p] = 1 - \alpha.$$
+$$I(T(x)) := \{p \in (0,1) \mid \phi_p(x) < 1\} = \{p \in (0,1) \mid T(x) \in [C_1(p), C_2(p)]\}.$$
+Za vsak $k=0,1,\dots,n$ bomo vzeli vse $p$ na neki diskretizaciji $(0,1)$, ki so v $I(k)$. Spodnja tabela prikazuje aproksimacijo $I\circ T$ pri delitvi intervala (0,1) na $1000$ delov, z zaokrožitvijo krajišč intervala na $4$ decimalna mesta.
+
+\begin{center}
+\begin{tabular}{ l | l }
+k & I(k) \\
+\hline
+0 & (0, 0.1798] \\
+1 & (0, 0.2697] \\
+2 & [0.004, 0.3457] \\
+3 & [0.022, 0.4136] \\
+4 & [0.0499, 0.4765] \\
+5 & [0.0849, 0.5365] \\
+6 & [0.1239, 0.5924] \\
+7 & [0.1668, 0.6464] \\
+8 & [0.2088, 0.6973] \\
+9 & [0.2557, 0.7453] \\
+10 & [0.3037, 0.7922] \\
+11 & [0.3546, 0.8342] \\
+12 & [0.4086, 0.8771] \\
+13 & [0.4645, 0.9161] \\
+14 & [0.5245, 0.951] \\
+15 & [0.5874, 0.979] \\
+16 & [0.6553, 0.997] \\
+17 & [0.7313, 1) \\
+18 & [0.8212, 1) \\
+\end{tabular}
+\end{center}
+
+\subsection{}
+Zaokroženo na $4$ decimalna mesta dobimo
+$$\gamma_1(0.72) \approx 0.1787 \quad \text{in} \quad \gamma_2(0.72) \approx 0.6852.$$
+
+\subsection{}
+Ocena minimuma vrednosti na spodnjem grafu je $0.9550165005548836$, kar je ocena za koeficient zaupanja.
+\begin{center}
+\begin{figure}[h]
+\includegraphics[width=18cm]{graphics/Pokritje.png}
+\end{figure}
+\end{center}
+
+\subsection{}
+Program nam vrne
+\begin{equation*}
+\begin{aligned}
+C_1 = 15 \quad &\text{in} \quad C_2 = 24 \\
+\gamma_1 \approx 0.6922 \quad &\text{in} \quad \gamma_2 \approx 0.0029
+\end{aligned}
+\end{equation*}
+
 
 \end{document}

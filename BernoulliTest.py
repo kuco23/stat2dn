@@ -1,5 +1,6 @@
 import numpy as np
 from math import ceil, floor
+import matplotlib.pyplot as plt
 
 def FBin(n,p0,k):
     b = 1
@@ -42,23 +43,22 @@ def getRandomizedTest(n,alpha,p0):
             gamma = np.linalg.solve(A,b)
             if 0 <= gamma[0] <= 1 and 0 <= gamma[1] <= 1:
                 return (C1,C2), tuple(map(float, gamma))
-                
-if __name__ == '_main__':
-    import matplotlib.pyplot as plt
-    
-    n, k = 20, 100
-    alpha = 0.05
-    p0 = np.linspace(0.01,1-0.01, k)
 
+def drawC(n,k,alpha):
+    h = 1 / (k+2)
+    p0 = linspace(h,1-h,k)
     C = np.zeros((k,2))
     for i in range(k):
         p = p0[i]
         (C1,C2), (g1, g2) = getRandomizedTest(n,alpha,p)
-        print(i,C1,C2)
         C[i,0] = C1
         C[i,1] = C2
-
-    plt.plot(p0, C[:,1], 'r', p0, C[:,1], 'b')
+    plt.plot(p0, C[:,1], 'r', po, C[:,1], 'b')
     plt.show()
-            
-            
+                
+if __name__ == '__main__':
+    n, k = 18, 100
+    alpha = 0.05
+    
+
+    
