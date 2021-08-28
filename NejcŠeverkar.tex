@@ -71,11 +71,11 @@ torej naša funkcija nima ničel in zato cenilka po metodi največjega verjetja 
 
 \subsection{}
 Za $k\in\N$ velja
-$$
+\begin{equation*}
 m_k := P_{(a,b)}[\id^k] = \int_0^\infty \frac{b^a}{\Gamma(a)} x^{-a-1} e^{-b/x} x^k dx
 = \frac{b^a}{\Gamma(a)} \frac{\Gamma(a-k)}{b^{a-k}} \int_0^\infty \frac{b^{a-k}}{\Gamma(a-k)} x^{-(a-k)-1} e^{-b/x} dx 
 = b^k \frac{\Gamma(a-k)}{\Gamma(a)}.
-$$
+\end{equation*}
 Označimo
 \begin{equation*}
 \begin{aligned}
@@ -130,10 +130,9 @@ s čimer se verjetno da dokazati enoličnost njenega radija.
 
 
 \section{2}
-Naj bodo $X_i \sim P_\mu$ NEP. Po Rao-Blackwellevem izreku lahko najdemo NCEND kot pogojno upanje 
-nepristranske cenilke $\ind_{\{X_1 \leq 5\}}$  pogojno na kompletno in zadostno statistiko
-$$\bar{X}^n = \frac{1}{n} \sum_{i=1}^n X_i.$$
-Označimo $Y = \bar{X}^n - \mu$ in definirajmo
+Naj bodo $X_i \sim P_\mu = N(\mu, \sigma_0)$ NEP za $i=1,\dots,n$ in fiksna $\sigma_0 \in \R^+$, $n\in\N$. Po Rao-Blackwellevem izreku lahko najdemo NCEND kot pogojno upanje nepristranske cenilke $\ind_{\{X_1 \leq 5\}}$  pogojno na kompletno in zadostno statistiko
+$$\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i.$$
+Označimo $Y = \bar{X} - \mu$ in definirajmo
 $$\tilde{X} = X_1 - \zeta Y, \text{ kjer je } \zeta = P[X_1Y] / \sigma(Y)^2.$$
 Zanjo velja
 $$P[\tilde{X}Y] = P[X_1Y] - \zeta P[Y^2] = 0,$$
@@ -141,28 +140,28 @@ torej sta $\tilde{X}$ in $Y$ nekorelirani, ker pa sta normalni, sta tudi neodvis
 Sedaj lahko zapišemo
 \begin{equation*}
 \begin{aligned}
-P[\ind_{\{X_1 \leq 5\}} \mid \bar{X}^n = t] &= P(X_1 \leq 5 \mid \bar{X}^n = t) 
+P[\ind_{\{X_1 \leq 5\}} \mid \bar{X} = t] &= P(X_1 \leq 5 \mid \bar{X} = t) 
 = P(\tilde{X} + \zeta Y \leq 5 \mid Y + \mu = t) = P(\tilde{X} + \zeta (t - \mu) \leq 5) \\
-&= P(X_1 - \zeta (\bar{X}^n - \mu) + \zeta(t - \mu) \leq 5) = P(X_1 - \zeta \bar{X}^n \leq 5 + \zeta t).
+&= P(X_1 - \zeta (\bar{X} - \mu) + \zeta(t - \mu) \leq 5) = P(X_1 - \zeta \bar{X} \leq 5 + \zeta t).
 \end{aligned}
 \end{equation*}
 Konkretno:
-$$P[X_1Y] = P[(\sigma Z_1 + \mu)Y] = P[\sigma Z_1 Y] = P[\sigma Z_1 \sum_{i=1}^n \frac{\sigma}{n} Z_i] = \frac{\sigma^2}{n} P[Z_1^2]  = \frac{\sigma^2}{n},$$
-torej skupaj z dejstvom $\sigma(Y) = \frac{\sigma}{\sqrt{n}}$ dobimo $\zeta = 1$ in zaporedje cenilk
-$$U_n(\bar{x}^n) = P(\sigma (1 + 1/\sqrt{n})Z \leq 5 + \bar{x}^n) = \Phi\left(\frac{5 + \bar{x}^n}{\sigma(1 + 1/\sqrt{n})}\right)$$
-
+\begin{equation*}
+P[X_1Y] = P[(\sigma Z_1 + \mu)Y] = P[\sigma Z_1 Y] = P[\sigma Z_1 \sum_{i=1}^n \frac{\sigma}{n} Z_i] = \frac{\sigma^2}{n} P[Z_1^2]  = \frac{\sigma^2}{n},
+\end{equation*}
+torej skupaj z dejstvom $\sigma(Y) = \sigma / \sqrt{n}$ dobimo $\zeta = 1$ in NCEND
+$$U(\bar{x}) = P(\sigma (1 + 1/\sqrt{n})Z \leq 5 + \bar{x}) = \Phi\left(\frac{5 + \bar{x}}{\sigma(1 + 1/\sqrt{n})}\right)$$
 
 \section{3}
 \subsection{}
-Ker je
+Fiksirajmo $n\in\N$ in označimo $P_\vartheta = \left(\int_{\_} f(k; \vartheta) dc(k)\right)^{\times n}$. Ker je
 $$
 f(k; \vartheta) = -\frac{\vartheta^k}{k\ln(1-\vartheta)} = -\frac{e^{k\ln(\vartheta)}}{k\ln(1-\vartheta)} \implies 
 f(k_1, \dots, k_n; \vartheta) = (-\ln(1-\vartheta))^{-n} \prod_{i=1}^n k_i^{-1} e^{\ln(\vartheta) \sum_{i=1}^n k_i}
 $$
 in $\ln((0,1))  = (-\infty, 0) \in \T_{EVK} \smallsetminus \{\emptyset\}$, je to eksponentni model s polnim rangom, 
-torej je statistika 
-$$T_n(k_1, \dots, k_n) = \sum_{i=1}^n k_i$$
-kompletna zadostna.
+torej dobimo kompletno zadostno statistiko 
+$$T(k_1, \dots, k_n) = \sum_{i=1}^n k_i.$$
 
 \subsection{}
 Ker imamo eksponenten model s funkcijo $Q = \ln$, ki je strogo naraščajoča na $(0,1)$, lahko uporabimo Neuman-Pearsonovo
@@ -176,14 +175,14 @@ $\vartheta \ge \vartheta_0$ v obliki
 $$
 \phi(k_1, \dots, k_n)= 
 \begin{cases}
-1 \mid & T_n(k_1, \dots, k_n) > C \\
-\gamma \mid &  T_n(k_1, \dots, k_n) = C \\
-0 \mid &  T_n(k_1, \dots, k_n) < C
+1 \mid & T(k_1, \dots, k_n) > C \\
+\gamma \mid &  T(k_1, \dots, k_n) = C \\
+0 \mid &  T(k_1, \dots, k_n) < C
 \end{cases},
 $$
 kjer določimo $C \in\N$ in $\gamma \in [0,1)$ enolično s pogojem
-$$\beta(\vartheta_0) = P_{\vartheta_0}[\Phi] = P_{\vartheta_0}(T_n > C) + \gamma P_{\vartheta_0}(T_n = C) = \alpha.$$
-Idealno bi bilo imeti porazdelitev $T_n$, a ta vključuje izračun vsot, ki v splošnem nimajo zaključene oblike ($\sum_{k=1}^d \vartheta^k / k$). Če bi imeli dovolj majhen vzorec, to tudi ne bi bil problem, saj bi izračunali posamezne vrednosti gostote $T_n$ z brute-force varianto. Ker pa je vzorec velikosti $n=100$ relativno velik, tega ne moremo izvesti. Lahko pa zato $T_n$ aproksimiramo z normalno porazdelitvijo (po CLI). Računamo
+$$\beta(\vartheta_0) = P_{\vartheta_0}[\Phi] = P_{\vartheta_0}(T > C) + \gamma P_{\vartheta_0}(T = C) = \alpha.$$
+Idealno bi bilo imeti porazdelitev $T_n$, a ta vključuje izračun vsot, ki v splošnem nimajo zaključene oblike ($\sum_{k=1}^d \vartheta^k / k$). Če bi imeli dovolj majhen vzorec, to tudi ne bi bil problem, saj bi izračunali posamezne vrednosti gostote $T$ z brute-force varianto. Ker pa je vzorec velikosti $n=50$ relativno velik, tega ne moremo izvesti. Lahko pa zato $T$ aproksimiramo z normalno porazdelitvijo (po CLI). Računamo
 \begin{equation*}
 \begin{aligned}
 \mu_\vartheta 
@@ -199,13 +198,13 @@ Idealno bi bilo imeti porazdelitev $T_n$, a ta vključuje izračun vsot, ki v sp
 \end{equation*}
 Označimo NEP model
 $$\tilde{P}_\vartheta := N(\mu_\vartheta, \sigma_\vartheta^2)^{\times n}.$$
-Sedaj lahko ocenimo gostoto statistike $T_n$ kot
-$$P_\vartheta(T_n = k) \approx \tilde{P}_\vartheta(T_n \leq k) - \tilde{P}_\vartheta(T_n \leq k-1).$$
+Sedaj lahko ocenimo gostoto statistike $T$ kot
+$$P_\vartheta(T = k) \approx \tilde{P}_\vartheta(T \leq k) - \tilde{P}_\vartheta(T \leq k-1).$$
 Aproksimirajmo:
 \begin{equation*}
 \begin{aligned}
-\alpha &= 1 - P_{\vartheta_0}(T_n \leq C) + \gamma P_{\vartheta_0}(T_n = C) \\
-&\approx 1 - \tilde{P}_{\vartheta_0}(T_n \leq C) + \gamma \tilde{P}_{\vartheta_0}(T_n \in [C-1, C]) \\
+\alpha &= 1 - P_{\vartheta_0}(T \leq C) + \gamma P_{\vartheta_0}(T = C) \\
+&\approx 1 - \tilde{P}_{\vartheta_0}(T \leq C) + \gamma \tilde{P}_{\vartheta_0}(T \in [C-1, C]) \\
 &= 1 - \Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) + \gamma\left(
 \Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) -
 \Phi\left(\frac{(C-1)/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right)
@@ -217,18 +216,18 @@ $$\gamma = \frac{\alpha +
 \Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) - 1}
 {\Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) -
 \Phi\left(\frac{(C-1)/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right)} \in [0,1).$$
-Dobimo $C = 221$ in $\gamma \approx 0.143$. Na spodnji sliki je funkcija moči, kjer so spet vse vrednosti aproksimirane z normalno porazdelitvijo.
+Dobimo $C = 117$ in $\gamma \approx 0.9705$.
 \begin{center}
 \begin{figure}[h]
 \includegraphics[width=18cm]{graphics/FunkcijaMoci.png}
-\caption{Funkcija moči dobljenega testa.}
+\caption{Funkcija moči dobljenega testa, kje so vrednosti aproksimirane z normalno porazdelitvijo.}
 \end{figure}
 \end{center}
 
 \section{}
 \subsection{}
-Označimo spet
-$$T(x_1, \dots, x_n) = \sum_{i=1}^n x_i.$$
+Spet fiksirajmo $n\in\N$ in označimo $P_{p_0} = \text{Ber}(p_0)^{\times n}$ ter
+$T(x_1, \dots, x_n) = \sum_{i=1}^n x_i.$
 Neuman-Pearsonov test za hipotezo $p = p_0$ proti alternativi ima obliko
 $$
 \phi(x)= 
@@ -252,71 +251,160 @@ P_{p_0}[\phi_{p_0}] &= P_{p_0}(T< C_1(p_0)) + P_{p_0}(T > C_2(p_0))
 in
 \begin{equation*}
 \begin{aligned}
-\frac{d}{dp_0} P_{p_0}[\phi_{p_0}] &= 
-- \sum_{i=C_1(p_0)}^{C_2(p_0)} \binom{n}{i}\left(i p_0^{i-1} (1-p_0)^{n-i} - (n-i) p_0^i (1-p_0)^{n-i-1}\right) \\
-&\quad + \sum_{i\in\{1,2\}} \gamma_i(p_0) \binom{n}{C_i(p_0)} \left(C_i(p_0) p_0^{C_i(p_0-1)} (1-p_0)^{n -C_i(p_0)} -
+\frac{d}{dp_0}& P_{p_0}[\phi_{p_0}] = 
+- \sum_{i=C_1(p_0)}^{C_2(p_0)} \binom{n}{i}\left(i p_0^{i-1} (1-p_0)^{n-i} - (n-i) p_0^i (1-p_0)^{n-i-1}\right) + \\
+& + \sum_{i\in\{1,2\}} \gamma_i(p_0) \binom{n}{C_i(p_0)} \left(C_i(p_0) p_0^{C_i(p_0-1)} (1-p_0)^{n -C_i(p_0)} -
 (n-C_i(p_0)) p_0^{C_i(p_0-1)} (1-p_0)^{n-C_i(p_0)-1}\right).
 \end{aligned}
 \end{equation*}
-Če privzamemo, da so vse vrednosti razen $\gamma_i(p_0)$ konstantne, je to sistem dveh linearnih enačb za $\gamma_i(p_0)$.
-To, da so ostale stvari konstantne dosežemo tako, da testiramo vsak $C_1(p_0) \in \{0,\dots,n-1\}$ in $C_2(p_0) \in \{C_1(p_0)+1,\dots,n\}$ posebej. Vzamemo prve vrednosti, pri katerih velja $0 \leq \gamma_i(p_0) \leq 1$ za $i=1,2$.
+Testiramo vse $0 \leq C_1(p_0) < n$ in $C_1(p_0) < C_2(p_0) \leq n$ in na vsaki iteraciji rešimo sistem dveh linearnih enačb za $\gamma_i(p_0)$. Vrnemo prve vrednosti, pri katerih velja $0 \leq \gamma_i(p_0) < 1$ za $i=1,2$.
 \begin{center}
 \begin{figure}[h]
-\includegraphics[width=18cm]{graphics/C1C2.png}
-\caption{$C_1(p)$ in $C_2(p)$  na diskretizaciji $(0,1)$ na $1000$ točkah.}
+\includegraphics[width=18cm]{graphics/C1C2_18.png}
+\caption{$C_1(p)$ in $C_2(p)$  na diskretizaciji $(0,1)$ na $1000$ točkah za $n=18$.}
 \end{figure}
 \end{center}
 
 Za interval zaupanja definiramo
 $$I(T(x)) := \{p \in (0,1) \mid \phi_p(x) < 1\} = \{p \in (0,1) \mid T(x) \in [C_1(p), C_2(p)]\}.$$
-Za vsak $k=0,1,\dots,n$ bomo vzeli vse $p$ na neki diskretizaciji $(0,1)$, ki so v $I(k)$. Spodnja tabela prikazuje aproksimacijo $I\circ T$ pri delitvi intervala (0,1) na $1000$ delov, z zaokrožitvijo krajišč intervala na $4$ decimalna mesta.
-
+Za vsak $k=0,1,\dots,n$ bomo vzeli vse $p$ na neki diskretizaciji $(0,1)$, ki so v $I(k)$. Spodnja tabela prikazuje aproksimacijo $I\circ T$ pri delitvi intervala (0,1) na $1000$ delov, z zaokrožitvijo krajišč intervala na $3$ decimalna mesta.
 \begin{center}
 \begin{tabular}{ l | l }
-k & I(k) \\
+$k$ & $I(k)$ \\
 \hline
-0 & (0, 0.1798] \\
-1 & (0, 0.2697] \\
-2 & [0.004, 0.3457] \\
-3 & [0.022, 0.4136] \\
-4 & [0.0499, 0.4765] \\
-5 & [0.0849, 0.5365] \\
-6 & [0.1239, 0.5924] \\
-7 & [0.1668, 0.6464] \\
-8 & [0.2088, 0.6973] \\
-9 & [0.2557, 0.7453] \\
-10 & [0.3037, 0.7922] \\
-11 & [0.3546, 0.8342] \\
-12 & [0.4086, 0.8771] \\
-13 & [0.4645, 0.9161] \\
-14 & [0.5245, 0.951] \\
-15 & [0.5874, 0.979] \\
-16 & [0.6553, 0.997] \\
-17 & [0.7313, 1) \\
-18 & [0.8212, 1) \\
+$0$ & $ (0, 0.18]$ \\
+$1$ & $(0, 0.27]$ \\
+$2$ & $[0.004, 0.346]$ \\
+$3$ & $[0.022, 0.414]$ \\
+$4$ & $[0.05, 0.477]$ \\
+$5$ & $[0.085, 0.536]$ \\
+$6$ & $[0.124, 0.592]$ \\
+$7$ & $[0.167, 0.646]$ \\
+$8$ & $[0.209, 0.697]$ \\
+$9$ & $[0.256, 0.745]$ \\
+$10$ & $[0.304, 0.792]$ \\
+$11$ & $[0.355, 0.834]$ \\
+$12$ & $[0.409, 0.877]$ \\
+$13$ & $[0.465, 0.916]$ \\
+$14$ & $[0.524, 0.951]$ \\
+$15$ & $[0.587, 0.979]$ \\
+$16$ & $[0.655, 0.997]$ \\
+$17$ & $[0.731, 1)$ \\
+$18$ & $[0.821, 1)$
 \end{tabular}
 \end{center}
 
 \subsection{}
-Zaokroženo na $4$ decimalna mesta dobimo
-$$\gamma_1(0.72) \approx 0.1787 \quad \text{in} \quad \gamma_2(0.72) \approx 0.6852.$$
+Zaokroženo na $4$ decimalna mesta dobimo $\gamma_1(0.72) \approx 0.1787$ in $\gamma_2(0.72) \approx 0.6852$.
 
 \subsection{}
-Ocena minimuma vrednosti na spodnjem grafu je $0.9550165005548836$, kar je ocena za koeficient zaupanja.
 \begin{center}
 \begin{figure}[h]
 \includegraphics[width=18cm]{graphics/Pokritje.png}
 \end{figure}
 \end{center}
+Ocena minimuma vrednosti na zgornjem grafu je $0.95502$, kar je naša ocena za koeficient zaupanja.
 
 \subsection{}
 Program nam vrne
+$$C_1 = 15 \quad C_2 = 24 \quad \gamma_1 \approx 0.6922 \quad \gamma_2 \approx 0.0029$$
+
+\subsection{}
+\begin{center}
+\begin{figure}[h]
+\includegraphics[width=18cm]{graphics/C1C2_28.png}
+\caption{$C_1(p)$ in $C_2(p)$  na diskretizaciji $(0,1)$ na $1000$ točkah za $n=28$}
+\end{figure}
+\end{center}
+
+\section{}
+Označimo torej $p = (p_0, \dots, p_3)$ in
+$$
+P_p = \left(
+\begin{array}{ll}
+\xi_0 \quad \xi_1 \quad \xi_2 \quad \xi_3 \\
+p_0 \quad p_1 \quad p_2 \quad p_3 \\
+\end{array}
+\right)^{\times n}.
+$$
+Vemo, da velja
+$$T_i(x_1, \dots, x_n) = \sum_{j=1}^n \ind_{\{\xi_i\}}(x_j) \implies P_p \circ (T_0, T_1, T_2, T_{3})^{-1} = \text{Multi}(p,n).$$
+\subsection{}
+Računamo moč preizkusa hipoteze $p = \pi = (\pi_0, \pi_1, \pi_2, \pi_3) =  (3/32, 7/32, 9/32, 11/32)$.
+\subsubsection{}
+Test je oblike
+$$
+\phi^1_n(x)= 
+\begin{cases}
+1 \mid  -2 \ln(\lambda_n(Tx)) > \chi_{3; \alpha}^2 \\
+0 \mid  -2 \ln(\lambda_b(Tx)) \leq \chi_{3; \alpha}^2 \\
+\end{cases}, \text{ kjer je }
+\lambda_n(t) = \prod_{j=0}^3 \left(\frac{n \pi_j}{t_j}\right)^{t_j}.
+$$
+Dobimo
 \begin{equation*}
-\begin{aligned}
-C_1 = 15 \quad &\text{in} \quad C_2 = 24 \\
-\gamma_1 \approx 0.6922 \quad &\text{in} \quad \gamma_2 \approx 0.0029
-\end{aligned}
+\beta^1_n = P_\pi[\phi^1_n] = P_\pi\left(-2\ln(\lambda_n \circ T\right) > \chi_{3;\alpha}^2) =
+ \text{Multi}(\pi,n)\left(\left\{t\mid \sum_{i=0}^3 t_i = n \;\land\; -2\ln(\lambda_n(t)) > \chi_{3;\alpha}^2\right\}\right).
 \end{equation*}
+To množico računalniško ni zelo zahtevno parametrizirati. Ko to naredimo, dobimo
+\begin{center}
+\begin{tabular}{ l | l }
+$n$ & $\beta^1_n$ \\
+\hline
+$35$ & $0.000019330779246711946$ \\
+$65$ & $0.00016696632438189583$ \\
+$95$ & $0.0011870347621621064$ \\
+$125$ & $0.007041048805908646$ 
+\end{tabular}
+\end{center}
 
+\subsubsection{}
+Test je oblike
+$$
+\phi^2_n(x)= 
+\begin{cases}
+1 \mid \tau_n(Tx) > \chi_{3; \alpha}^2 \\
+0 \mid \tau_n(Tx) \leq \chi_{3; \alpha}^2
+\end{cases}, \text{ kjer je }
+\tau_n(t) = \sum_{j=0}^3 \frac{(t_j - n\pi_j)^2}{n\pi_j}.
+$$
+Spet izrazimo
+\begin{equation*}
+\beta^2_n = P_\pi[\phi^2_n] = P_\pi\left(\tau_n \circ T > \chi_{3;\alpha}^2\right)  =  \text{Multi}(\pi,n)\left(\left\{t \mid \sum_{i=0}^3 t_i = n \;\land\; \tau_n(t) > \chi_{3;\alpha}^2\right\}\right)
+\end{equation*}
+in dobimo
+\begin{center}
+\begin{tabular}{ l | l }
+$n$ & $\beta^2_n$ \\
+\hline
+$35$ & $0.06836781744193415$ \\
+$65$ & $0.09193396478820819$ \\
+$95$ & $0.11436093029694488$ \\
+$125$ & $0.13857104432656328$
+\end{tabular}
+\end{center}
 
+\subsection{}
+\subsubsection{}
+Naj bo
+$$H = \{(p_0, p_1, p_2, p_3) \mid p_0 + p_1 + p_2 + p_3 \;\land\; p_1 + 2p_2 = 2/3\}.$$
+Za dani $x$ iščemo
+$$\sup_{p \in H} P_p(\{x\}) = \sup_{p \in H} \prod_{i=0}^3 p_i^{T_i(x)},$$
+torej maksimiziramo funkcijo
+$$l(p) = t_0 \ln(p_0) + t_1 \ln(p_1) + t_2 \ln(p_2) + t_3 \ln(p_3) = t_0 \ln(1/3 + p_2 - p_3) + t_1 \ln(2/3 - 2p_2) + t_2\ln(p_2) + t_3\ln(p_3).$$
+Po enačenju parcialnih odvodov z $0$ dobimo ekstrem
+$$\hat{p}_2(t) = \frac{(t_0 - t_1 + t_3) + \sqrt{(t_0 - t_1 + t_3)^2 + 4 n t_2}}{6n} \quad \text{in} \quad \hat{p}_3(t) = \frac{t_3(p_2 + 1/3)}{t_0 + t_2}.$$
+Podajmo test
+$$
+\phi^3_n(x)= 
+\begin{cases}
+1 \mid \zeta_n(Tx) > \chi_{3;\alpha}^2 \\
+0 \mid \zeta_n(Tx) \leq \chi_{3; \alpha}^2
+\end{cases}, \text{ kjer je }
+\zeta_n(t) = \prod_{i=0}^3 \left(\frac{n\hat{p}_i(t)}{t_i}\right)^{t_i}.
+$$
+Asimptotični izrek za hipotezo $H$ velja, saj je $p \mapsto p_1 + 2p_2 - 2/3$ gladka submerzija, drugi pogoji pa so zadoščeni od prej.
+
+\subsubsection{}
+Izbrali smo $\pi = (1,0,1,1)/3$ in dobili $34$ primerov, ko test zavrne hipotezo.
 \end{document}

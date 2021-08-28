@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
 
-n = 100
+n = 50
 theta0 = 0.7
 alpha = 0.05
 
@@ -33,7 +33,7 @@ for theta in t:
     val2 = norm.cdf(trans(C-1, theta))
     b.append(1 - val1 + gamma * (val1 - val2))
 
-title, xlab, ylab = 'Funkcija moci', 'theta', 'beta(theta)'
+title, xlab, ylab = '', 'theta', 'beta(theta)'
 fig, ax = plt.subplots(1, 1, figsize=(15, 8))
 ax.set_title(title)
 ax.set_xlabel(xlab)

@@ -1,6 +1,7 @@
 from math import ceil, floor
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 
 def binomialValuesGen(n,p0,k):
     b = 1
@@ -66,10 +67,11 @@ def inversionInterval(n,k,alpha):
     return data
 
 def buildInversionIntervalTable(n,k,alpha,rnd):
+    data = inversionInterval(n,k,alpha)
     for d in data:
         s = '[' if d[1] != 0 else '('
         t = ']' if d[2] != 1 else ')'
-        print(f'{d[0]} & {s}{d[1]}, {d[2]}{t} \\\\')
+        print(f'${int(d[0])}$ & ${s}{round(d[1],rnd)}, {round(d[2],rnd)}{t}$ \\\\')
 
 def getCoverData(n,k,alpha):
     h = 1 / (k+2)
@@ -87,21 +89,52 @@ def getCoverData(n,k,alpha):
         data[i][1] = s
     return data
 
-def getAx(data, title, xlab, ylab):
+def getAx(title, xlab, ylab, xticks=None, yticks=None):
     fig, ax = plt.subplots(1, 1, figsize=(15, 8))
+    
     ax.set_title(title)
     ax.set_xlabel(xlab)
     ax.set_ylabel(ylab)
+    
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['left'].set_alpha(0.5)
     ax.spines['bottom'].set_alpha(0.5)
     ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
     return ax
+
+def drawC1C2(n,k,alpha):
+    data = getCData(n,k,alpha)
+
+    jumps1 = [data[0,0]]
+    jumps2 = [data[0,0]]
+    for i in range(1,k-1):
+        p = data[i+1,0]
+        if data[i+1,1] > data[i,1]:
+            jumps1.append(p)
+        if data[i+1,2] > data[i,2]:
+            jumps2.append(p)
+
+    ax = getAx('', 'int(100*p)', 'C1,C2')
+    axT = ax.twiny()
+    
+    ax.set_yticks(range(n+1))
+    ax.set_xticks(jumps1)
+    ax.set_xticklabels([str(round(j,2))[2:] for j in jumps1])
+    axT.tick_params(direction = 'in')
+    axT.set_xticks(jumps2)
+    axT.set_xticklabels([str(round(j,2))[2:] for j in jumps2])
+    axT.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+
+    ax.plot(data[:,0], data[:,1], 'r', data[:,0], data[:,2], 'g')
+    axT.plot(data[:,0], data[:,1], 'r', data[:,0], data[:,2], 'g')
+    
+    plt.show()
                 
 if __name__ == '__main__':
     n, k = 18, 1000
     alpha = 0.05
-    #data = getCoverData(n,k,alpha)
+    buildInversionIntervalTable(n,k,alpha,3)
     
+
             
