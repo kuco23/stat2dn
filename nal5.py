@@ -46,10 +46,6 @@ def test(n, t):
         q = prod([p[i]**t[i] if t[i] != 0 else 1 for i in range(4)])
         return q / r
 
-    print(p)
-    print('sheit')
-        
-
 N, n = 9500, 45
 z = 0
 C = [0,2,3]
