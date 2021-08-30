@@ -2,6 +2,7 @@ from math import ceil, floor
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
+from defaultAx import getAx
 
 def binomialValuesGen(n,p0,k):
     b = 1
@@ -89,19 +90,7 @@ def getCoverData(n,k,alpha):
         data[i][1] = s
     return data
 
-def getAx(title, xlab, ylab, xticks=None, yticks=None):
-    fig, ax = plt.subplots(1, 1, figsize=(15, 8))
-    
-    ax.set_title(title)
-    ax.set_xlabel(xlab)
-    ax.set_ylabel(ylab)
-    
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_alpha(0.5)
-    ax.spines['bottom'].set_alpha(0.5)
-    ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
-    return ax
+
 
 def drawC1C2(n,k,alpha):
     data = getCData(n,k,alpha)

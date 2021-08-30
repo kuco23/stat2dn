@@ -35,6 +35,7 @@
 \newcommand{\aph}{\text{@}}
 \newcommand{\primea}{\textsc{\char13}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\adjscalar}[1]{\left\langle\;#1\;\right\rangle}
 \newcommand{\scalar}[1]{\langle\;#1\;\rangle}
 \newcommand{\zeroradical}{\sqrt{0}}
 \newcommand{\Bin}{\text{Bin}}
@@ -129,7 +130,19 @@ $$P(\pi_n(X_1, \dots, X_n, \vartheta) \in B) = P(\hat{\vartheta}_n(X_1, \dots, X
 torej je območje zaupanja za $\vartheta$ enako
 $$\hat{\vartheta}_n(X_1, \dots, X_n) - \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}.$$
 Vprašanje izbire množice $B$ lahko rešimo s predpostavko, da je to zaprta krogla s središčem v $0$ v neki normirani metriki, 
-s čimer se verjetno da dokazati enoličnost njenega radija.
+s čimer se verjetno da dokazati enoličnost njenega radija. Če vzamemo normo $\norm{.}_2$, dobimo, da je območje zaupanja enako elipsi
+$$\hat{\vartheta}_n(X_1, \dots, X_n) + Q \sqrt{\Lambda} B / \sqrt{n},$$
+kjer je $\hat{A}_n = Q_n \Lambda_n Q_n^T$ Schurova forma. Sicer pa je bolj priročno vzeti normo $\norm{.}_\infty$, saj lahko izrazimo 
+\begin{equation*}
+N(0,I)\left([-r,r]^2\right) = \left(N(0,1)([-r,r])\right)^2 = 1 - \alpha 
+\end{equation*}
+in dobimo, da je $r$ enak zgornjemu $((1 - \sqrt{1-\alpha})/2)$-percentilu porazdelitve $N(0,1)$. Podobno kot pri elipsi, tu dobimo paralelogram. Spodaj je prikazana realizacija tega paralelograma glede na dane podatke.
+\begin{center}
+\begin{figure}[h]
+\includegraphics[width=15cm]{graphics/ConfidenceParalelogram.png}
+\end{figure}
+\end{center}
+
 
 
 \section{2}
@@ -272,7 +285,8 @@ Za interval zaupanja definiramo
 $$I(T(x)) := \{p \in (0,1) \mid \phi_p(x) < 1\} = \{p \in (0,1) \mid T(x) \in [C_1(p), C_2(p)]\}.$$
 Za vsak $k=0,1,\dots,n$ bomo vzeli vse $p$ na neki diskretizaciji $(0,1)$, ki so v $I(k)$. Spodnja tabela prikazuje aproksimacijo $I\circ T$ pri delitvi intervala (0,1) na $1000$ delov, z zaokrožitvijo krajišč intervala na $3$ decimalna mesta.
 \begin{center}
-\begin{tabular}{ l | l }
+\begin{tabular}{ |l|l| }
+\hline
 $k$ & $I(k)$ \\
 \hline
 $0$ & $ (0, 0.18]$ \\
@@ -293,7 +307,8 @@ $14$ & $[0.524, 0.951]$ \\
 $15$ & $[0.587, 0.979]$ \\
 $16$ & $[0.655, 0.997]$ \\
 $17$ & $[0.731, 1)$ \\
-$18$ & $[0.821, 1)$
+$18$ & $[0.821, 1)$ \\
+\hline
 \end{tabular}
 \end{center}
 
@@ -351,13 +366,15 @@ Dobimo
 \end{equation*}
 To množico računalniško ni zelo zahtevno parametrizirati. Ko to naredimo, dobimo
 \begin{center}
-\begin{tabular}{ l | l }
+\begin{tabular}{|l|l| }
+\hline
 $n$ & $\beta^1_n$ \\
 \hline
 $35$ & $0.000019330779246711946$ \\
 $65$ & $0.00016696632438189583$ \\
 $95$ & $0.0011870347621621064$ \\
-$125$ & $0.007041048805908646$ 
+$125$ & $0.007041048805908646$  \\
+\hline
 \end{tabular}
 \end{center}
 
@@ -377,13 +394,15 @@ Spet izrazimo
 \end{equation*}
 in dobimo
 \begin{center}
-\begin{tabular}{ l | l }
+\begin{tabular}{ |l|l| }
+\hline
 $n$ & $\beta^2_n$ \\
 \hline
 $35$ & $0.06836781744193415$ \\
 $65$ & $0.09193396478820819$ \\
 $95$ & $0.11436093029694488$ \\
-$125$ & $0.13857104432656328$
+$125$ & $0.13857104432656328$ \\
+\hline
 \end{tabular}
 \end{center}
 
@@ -446,7 +465,7 @@ Na levi strani dobimo $33.667$, na desni pa $3.0564$ in zato zavrnemo. Hipotezo 
 Imamo torej pivotno funkcijo
 $$F(x, \beta) = \frac{\scalar{X^T X  (\hat{\beta} - \beta), \hat{\beta} - \beta} / m}{\norm{y - \hat{y}}^2 / (n-m)} \sim F_{m, n-m}$$
 s katero konstruiramo elipsoid zaupanja 
-$$\left\{\hat{\beta} + Q\Lambda^{-1/2} u \;\bigm|\; \norm{u}_2^2 \leq \frac{m\norm{y - \hat{y}}_2^2  F_{m, n-m; \alpha} }{n-m}\right\},$$
+$$E = \left\{\hat{\beta} + Q\sqrt{\Lambda}^{-1} u \;\bigm|\; \norm{u}_2^2 \leq \frac{m\norm{y - \hat{y}}_2^2  F_{m, n-m; \alpha} }{n-m}\right\},$$
 kjer je $X^TX = Q\Lambda Q^T$ Schurov razcep. Če s $S_1(0) \subset \R^3$ označimo enotsko kroglo s središčem v izhodišču, dobimo iz podatkov elipsoid 
 $$E \approx
 \begin{bmatrix}
@@ -495,14 +514,14 @@ P(Y + Z \leq w) &= \sum_{z_k} P(Y \leq w - z_k) P(Z = z_k) = \sum_{z_k} \int_{-\
 &= \sum_{z_k} \int_{-\infty}^w f_Y(x - z_k) P(Z = z_k) dx = \int_{-\infty}^w \sum_{z_k} f_Y(x-z_k) P(Z = z_k) dx = \int_{-\infty}^w f_X(x) dx.
 \end{aligned}
 \end{equation*}
-Ker je $(x,z_k) \mapsto f_Y(x - z_k) P(Z = z_k)$ merljiva in vrsta konvergentna za vsak $x\in\R$ (je dominirana z $1$), je $f_X \in B_\R / B_\R$ (po enem iz izrekov pri teoriji mere). Zato je $f_X$ Lebesgueva gostota slučajne spremenljivke $X = Y + Z$.
+Ker je $(x,z_k) \mapsto f_Y(x - z_k) P(Z = z_k)$ merljiva in vrsta konvergentna za vsak $x\in\R$ (je dominirana z $1$), je $f_X \in B_\R / B_\R$ (po enem od zrekov teorije mere). Zato je $f_X$ Lebesgueva gostota slučajne spremenljivke $X = Y + Z$.
 
 \subsection{}
 Dobimo
 \begin{equation*}
 \begin{aligned}
 &f_X(x) = \sum_{k=0}^\infty \frac{c_k\lambda^k}{c(\lambda)}  \alpha (x-k)^{\alpha-1} \ind_{(0,1)}(x-k) 
-= \frac{c_{\floor{x}} \lambda^{\floor{x}}}{c(\lambda)} \alpha (x-\floor{x})^{\alpha-1} \\
+= \frac{\alpha c_{\floor{x}}}{c(\lambda)} \lambda^{\floor{x}} (x-\floor{x})^{\alpha-1} \\
 &\ln(f_X(x)) = \ln(\alpha/c(\lambda)) + \ln(c_{\floor{x}}) + \floor{x}\ln(\lambda) + (\alpha-1)\ln(x - \floor{x})
 \end{aligned}
 \end{equation*}
@@ -510,9 +529,11 @@ Dobimo
 \subsection{}
 Izrazimo
 \begin{equation*}
-f_{(X_1, \dots, X_n)}(x_1, \dots, x_n) = \left(\frac{\alpha}{c(\lambda)}\right)^n \prod_{i=1}^n c_{\floor{x_i}}
-\lambda^{\prod_{i=1}^n \floor{x_i}} \left(\prod_{i=1}^n(x_i - \floor{x_i}\right)^{\alpha-1}
+f_{(X_1, \dots, X_n)}(x_1, \dots, x_n) = \left(\frac{\alpha}{c(\lambda)}\right)^n \left(\prod_{i=1}^n c_{\floor{x_i}}\right)
+\exp\left(\adjscalar{\left[\ln(\lambda), \alpha-1\right], \left[\sum_{i=1}^n \floor{x_i}, \sum_{i=1}^n \ln(x_i - \floor{x_i})\right]}\right)
 \end{equation*}
-Po Fisher-Neymanovem izreku dobimo zadostnost statistike $T(x) = \sum_{i=1}^n \ln(x_i)$. Čeprav je model eksponenten pa nima polnega ranga, torej ne moremo sklepati, da je $T$ kompletna.
+Po Fisher-Neymanovem izreku dobimo zadostnost statistike 
+$$T(x_1, \dots, x_n) = \sum_{i=1}^n (\floor{x_i}, \ln(x_i - \floor{x_i})),$$
+ker pa imamo eksponentni model s polnim rangom, sledi še, da je ta statistika tudi zadostna. Pripomnimo, da je verjetnost dogodka $\{X_i = \floor{X_i}\}$ enaka nič.
 
 \end{document}
