@@ -24,22 +24,16 @@ def getData(path):
                 first = False
             else:
                 data.append(list(map(float, sline)))
-    return (names, data)
-
-def linearRegresh(path, const=True):
-    names, data = getData(path)
     data = np.asarray(data)
-    X = data[:,:-1]
-    y = data[:, -1]
-    if const:
-        X = np.insert(X, 0, values=np.ones(len(y)), axis=1)
-    b = lstsq(X,y)[0]
-    return (X, y, b)
+    return (names, data[:,:-1], data[:,-1])
+
+def linearRegresh(X, y, const=True):
+    if const: X = np.insert(X, 0, values=np.ones(len(y)), axis=1)
+    return lstsq(X,y)[0]
 
 def FTestConstants(X,y,b,alpha):
     m, n = X.shape[1]-1, len(y)
-    yavg = sum(y) / n
-    yaprx = np.matmul(X, b)
+    yavg, yaprx = sum(y) / n, X @ b
     Fstat = truediv(
         sum([(yaprx[i] - yavg)**2 / m for i in range(n)]),
         sum([(y[i] - yaprx[i])**2 / (n-m-1) for i in range(n)])
@@ -51,33 +45,31 @@ def TTestConstants(X,y,b,alpha):
     m, n = X.shape[1]-1, len(y)
     e0 = np.zeros(m+1)
     e0[0] = 1
-    XtX = np.matmul(np.transpose(X), X)
-    invXtX00 = np.linalg.solve(XtX, e0)[0]
-    vkr = np.linalg.norm(y - np.matmul(X, b))
+    invXtX00 = np.linalg.solve(X.T @ X, e0)[0]
+    vkr = np.linalg.norm(y - X @ b)
     Tstat = b[0] / (math.sqrt(invXtX00 / (n-m-1)) * vkr)
     Talpha2 = T.ppf(1-alpha/2, n-m-1)
     return (Tstat, Talpha2)
 
 def getConfidenceElipsoidData(X, y, b):
     n, m = X.shape
-    XtX = np.matmul(np.transpose(X),X)
-    S, Q = schur(XtX)
+    S, Q = schur(X.T @ X)
     Falpha = F.ppf(1-alpha, m, n-m)
-    vkr = np.linalg.norm(y - np.matmul(X, b))**2
-    r = (m * vkr * Falpha) / (n - m)
+    vkr = np.linalg.norm(y - X @ b)**2
+    r = math.sqrt((m * vkr * Falpha) / (n - m))
     L = np.diagonal(S)
     return (Q, L, r)
 
 def getBonferiCorrection(X,y,b,alpha):
-    m, n = X.shape[1], len(y)
+    n, m = X.shape
     I = []
     for j in range(m):
         ej = np.zeros(m)
         ej[j] = 1
-        invXtX00 = np.linalg.solve(X.T @ X, ej)[j]
+        invXtXjj = np.linalg.solve(X.T @ X, ej)[j]
         vkr = np.linalg.norm(y - X @ b)
         Talpha2 = T.ppf(1-alpha/(2*m), n-m)
-        Tstat = Talpha2 * vkr * math.sqrt(invXtX00 / (n-m))
+        Tstat = Talpha2 * vkr * math.sqrt(invXtXjj / (n-m))
         I.append((b[j] - Tstat, b[j] + Tstat))
     return I
 
@@ -138,7 +130,7 @@ def drawCuboid(ax, I):
     # plot cuboid
     ax.plot_surface(
         x, y, z,
-        cmap=cm.bone, alpha=0.2,
+        cmap=cm.binary_r, alpha=0.2,
         lightsource = LightSource()
     )
     return ax
@@ -156,10 +148,11 @@ def testIfInInterval(X, y, b, Q, L, b0):
 if __name__ == '__main__':
     alpha = 0.05
     path = 'podatki_6.txt'
+    names, X, y = getData(path)
     
-    X, y, b = linearRegresh(path, False)
+    b = linearRegresh(X, y, False)
     Q, L, r = getConfidenceElipsoidData(X,y,b)
-    A = math.sqrt(r) * Q @ np.diagflat(np.power(L, -1/2))
+    A = r * Q @ np.diagflat(np.power(L, -1/2))
     I = getBonferiCorrection(X, y, b, alpha)
 
     ax = plt.figure().gca(projection='3d')

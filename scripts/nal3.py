@@ -2,47 +2,75 @@ from math import log, sqrt
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
-
-n = 50
-theta0 = 0.7
-alpha = 0.05
+from defaultAx import getAx
 
 mu = lambda theta: -theta / ((1 - theta) * log(1 - theta))
 sigma = lambda theta: sqrt(
     -theta / ((1 - theta)**2 * log(1 - theta)) - mu(theta)**2
 )
-trans = lambda c, theta: (c / n - mu(theta)) / (sigma(theta) / sqrt(n))
+trans = lambda c, theta, n: (c / n - mu(theta)) / (sigma(theta) / sqrt(n))
 
-C = 1
-while True:
-    val1 = norm.cdf(trans(C, theta0))
-    val2 = norm.cdf(trans(C-1, theta0))
-    gamma = (alpha + val1 - 1) / (val1 - val2)
-    if 0 <= gamma < 1:
-        print(C, gamma)
-        break
-    C += 1
+def getData(path):
+    data = []
+    with open(path, 'r') as file:
+        for line in file:
+            data.append(float(line.strip()))
+    return data
 
-print(f'C={C}')
-print(f'gamma={gamma}')
+def getTest(alpha, theta0, n):
+    C = 1
+    while True:
+        val1 = norm.cdf(trans(C, theta0, n))
+        val2 = norm.cdf(trans(C-1, theta0, n))
+        gamma = (alpha + val1 - 1) / (val1 - val2)
+        if 0 <= gamma < 1: break
+        C += 1
+    return (C, gamma)
 
-b = []
-t = np.linspace(0.001, 0.999, 100)
-for theta in t:
-    val1 = norm.cdf(trans(C, theta))
-    val2 = norm.cdf(trans(C-1, theta))
-    b.append(1 - val1 + gamma * (val1 - val2))
+def getConfidenceInterval(t, alpha, n, k=1000):
+    a,b = [0, 0]
+    theta = np.linspace(1/(k+2), 1-1/(k+2), k)
+    for theta0 in theta:
+        Ft = norm.cdf(trans(t, theta0, n))
+        Ftm = norm.cdf(trans(t-1, theta0, n))
+        if Ft <= alpha/2 and b == 0:
+            b = theta0
+        if Ftm <= 1 - alpha/2 and a == 0:
+            a = theta0
+            break
+    return [a,b]
 
-title, xlab, ylab = '', 'theta', 'beta(theta)'
-fig, ax = plt.subplots(1, 1, figsize=(15, 8))
-ax.set_title(title)
-ax.set_xlabel(xlab)
-ax.set_ylabel(ylab)
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-ax.spines['left'].set_alpha(0.5)
-ax.spines['bottom'].set_alpha(0.5)
-ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
-    
-ax.plot(t, b)
-plt.show()
+def plotPowerFunction(n, C, gamma, k=100):
+    b = []
+    theta = np.linspace(1/(k+2), 1-1/(k+2), k)
+    for theta0 in theta:
+        val1 = norm.cdf(trans(C, theta0, n))
+        val2 = norm.cdf(trans(C-1, theta0, n))
+        b.append(1 - val1 + gamma * (val1 - val2))
+        
+    title, xlab, ylab = '', 'theta', 'beta(theta)'
+    ax = getAx(title, xlab, ylab)
+    ax.plot(t, b)
+    plt.show()
+
+def plotThetaDiff(k=100):
+    theta = np.linspace(1/(k+2),1-1/(k+2),k)
+    r = np.log(theta)*np.log(1-theta)*(1-theta)
+
+    ax = getAx('', 'theta', 'log(theta)*log(1-theta)*(1-theta)')
+    ax.plot(theta,r)
+    plt.show()
+        
+
+if __name__ == '__main__':
+    n = 50
+    theta0 = 0.7
+    alpha = 0.05
+
+    #C, gamma = getTest(alpha, theta0, n)
+    #plotPowerFunction(n, C, gamma)
+
+    path = 'podatki_3.txt'
+    data = getData(path)
+    t = sum(data)
+    I = getConfidenceInterval(t, alpha, len(data))

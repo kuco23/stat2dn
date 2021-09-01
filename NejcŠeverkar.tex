@@ -50,10 +50,10 @@
 
 \subsection{}
 Če zapišemo gostote v eksponentni obliki, dobimo
-$$f(x; a,b) = \frac{b^a}{\Gamma(a)} e^{-\scalar{(a+1, b), (\ln(x), 1/x)}} \cdot \ind_{(0,\infty)}(x),$$
-torej dobimo po Neuman-Fischerjevem faktorizacijskem izreku, da je
+$$f(x; a,b) = \frac{b^a}{\Gamma(a)} \exp(-\scalar{(a+1, b), (\ln(x), 1/x)}) \cdot \ind_{(0,\infty)}(x),$$
+torej po Fisher-Neymanovem faktorizacijskem izreku dobimo, da je
 $$T(x) = (\ln(x), 1/x)$$
-zadostna statistika za ta model.
+zadostna statistika za ta model. Ker je to eksponenten model s polnim rangom, pa je $T$ tudi kompletna.
 
 \subsection{}
 Ker smo v parametričnem modelu z zvezno odvedljivimi gostotami, lahko iščemo stacionarne točke gostot 
@@ -74,39 +74,36 @@ $$\Psi(x) - \frac{1}{2x} > 0,$$
 torej naša funkcija nima ničel in zato cenilka po metodi največjega verjetja ne obstaja (digamma wiki).
 
 \subsection{}
-Za $k\in\N$ velja
+Naj bo $P_{(a,b)}$ mera, inducirana z gostoto $f(\cdot; a,b)$. Za $k\in\N$ velja
 \begin{equation*}
 m_k := P_{(a,b)}[\id^k] = \int_0^\infty \frac{b^a}{\Gamma(a)} x^{-a-1} e^{-b/x} x^k dx
 = \frac{b^a}{\Gamma(a)} \frac{\Gamma(a-k)}{b^{a-k}} \int_0^\infty \frac{b^{a-k}}{\Gamma(a-k)} x^{-(a-k)-1} e^{-b/x} dx 
 = b^k \frac{\Gamma(a-k)}{\Gamma(a)}.
 \end{equation*}
 Označimo
-\begin{equation*}
-\begin{aligned}
-&\hat{b}(x_1, x_2, x_3) := \left(\frac{x_1}{x_2} - \frac{x_2}{x_3}\right)^{-1} \\
-&\hat{a}(x_1, x_2, x_3) := \frac{\hat{b}(x_1,x_2,x_3)}{x_1} + 1 \\
-\end{aligned}
-\end{equation*}
-in opazimo, da je $\hat{b}(m_1,m_2,m_3) = b$ in $\hat{a}(m_1,m_2,m_3) = a$,
+$$
+\hat{b}(x_1, x_2, x_3) := \left(\frac{x_1}{x_2} - \frac{x_2}{x_3}\right)^{-1} \quad \text{in} \quad
+\hat{a}(x_1, x_2, x_3) := \frac{\hat{b}(x_1,x_2,x_3)}{x_1} + 1.
+$$
+Opazimo, da je $\hat{b}(m_1,m_2,m_3) = b$ in $\hat{a}(m_1,m_2,m_3) = a$,
 torej dobimo zaporedje cenilk po metodi momentov
 $$(\hat{a}, \hat{b}) \circ (\hat{m_1^n}, \hat{m_2^n}, \hat{m_3^n}),$$
 kjer je
 $$\hat{m_k^n}(x) = \frac{1}{n} \sum_{i=1}^n x_i^ k.$$
-Ker je $g = (\hat{a}, \hat{b})$ zvezna na $\R_+^3$, je ta cenilka dosledna. 
-Sicer pa $g$ ni trivialna preslikava in zato ne moremo enostavno analizirati porazdelitve, 
-niti nujno izračunati povprečne vrednosti.
+Ker je $g = (\hat{a}, \hat{b})$ zvezna na $\R_+^3$, je ta cenilka dosledna. Sicer pa je $g$ za analizo še kar zahtevna preslikava in zato je izračun konkretne porazdelitve ali katerega od momentov težek problem.
+
 
 \subsection{}
-Naj bodo torej $X_i \sim P_\vartheta$ NEP. Definirajmo NEP vektorje $Y_i := (X_i, X_i^2, X_i^3)$ in označimo
+Označimo $X^{(n)} := (X_1, \dots, X_n) \sim P_{(a,b)}^{\times n}$ in NEP vektorje $Y_i := (X_i, X_i^2, X_i^3)$ . Dalje
 $$
 M_n := (\hat{m_1^n}, \hat{m_2^n}, \hat{m_3^n}) \quad \text{in} \quad
 \hat{\vartheta}_n := g \circ M_n.
 $$
 Po centralnem limitnem izreku velja
-$$\sqrt{n} \cdot \left(M_n(X_1, \dots, X_n) - \mu \right) = \sqrt{n} \cdot\left(\frac{1}{n} \sum_{i=1}^n Y_i - \mu\right) \xrightarrow[n\to\infty]{D} N(0, \Sigma),$$
+$$\sqrt{n} \cdot \left(M_n(X^{(n)}) - \mu \right) = \sqrt{n} \cdot\left(\frac{1}{n} \sum_{i=1}^n Y_i - \mu\right) \xrightarrow[n\to\infty]{D} N(0, \Sigma),$$
 kjer je $\mu$ pričakovana vrednost, $\Sigma$ pa variančno-kovariančna matrika vektorjev $Y_i$.
 Potem nam metoda delta skupaj s Cramer-Woldovim pravilom zagotovi
-$$\sqrt{n} \cdot (\hat{\vartheta}_n(X_1, \dots, X_n) - \vartheta) = \sqrt{n} \cdot (g(M_n(X_1, \dots, X_n)) - g(\mu)) \xrightarrow[n\to\infty]{D} N(0, \J_g(\mu) \Sigma \J_g(\mu)^T),$$
+$$\sqrt{n} \cdot (\hat{\vartheta}_n(X^{(n)}) - \vartheta) = \sqrt{n} \cdot (g(M_n(X^{(n)})) - g(\mu)) \xrightarrow[n\to\infty]{D} N(0, \J_g(\mu) \Sigma \J_g(\mu)^T),$$
 saj je očitno $\mu = [m_1, m_2, m_3]^T$.
 
 \subsection{}
@@ -121,17 +118,17 @@ $$
 in označimo
 $$A := \J_g(\mu) \Sigma \J_g(\mu)^T.$$
 Definirajmo sedaj zaporedje cenilk $\hat{A}_n$ tako, da zamenjamo v $A$  elemente $m_i$ z $\hat{m_i^n}$.
-Potem uporabimo Sluckyjev izrek in zveznost korena ter inverza spd matrike, da dobimo
-$$\pi_n(X_1, \dots, X_n, \vartheta) := \sqrt{n} \cdot \hat{A}_n^{-1/2} \left(\hat{\vartheta}_n(X_1, \dots, X_n) - \vartheta\right) \xrightarrow[n\to\infty]{D} N(0, I).$$
+Potem uporabimo Sluckyjev izrek, zveznost korena ter inverza (simetrične, pozitivno definitne) matrike in malo ocenimo
+$$\pi_n(X^{(n)}, \vartheta) := \sqrt{n} \cdot \hat{A}_n^{-1/2}(X^{(n)}) \left(\hat{\vartheta}_n(X^{(n)}) - \vartheta\right) \xrightarrow[n\to\infty]{D} N(0, I).$$
 Naj bo $B \subset \R^2$ neka množica, ki zadošča
-$$P(\pi_n(X_1, \dots, X_n, \vartheta) \in B) \approx N(0,I)(B) = 1 - \alpha,$$
+$$P(\pi_n(X^{(n)}, \vartheta) \in B) \approx N(0,I)(B) = 1 - \alpha.$$
 Sledi
-$$P(\pi_n(X_1, \dots, X_n, \vartheta) \in B) = P(\hat{\vartheta}_n(X_1, \dots, X_n) - \vartheta \in \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}) = P(\vartheta \in \hat{\vartheta}_n(X_1, \dots, X_n) - \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}),$$
+$$P(\pi_n(X^{(n)}), \vartheta) \in B) = P_{\vartheta}^{\times n}(\hat{\vartheta}_n - \vartheta \in \hat{A}_n^{1/2})\left(B\right) / \sqrt{n}) = P_{\vartheta}^{\times n}(\vartheta \in \hat{\vartheta}_n - \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}),$$
 torej je območje zaupanja za $\vartheta$ enako
-$$\hat{\vartheta}_n(X_1, \dots, X_n) - \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}.$$
+$$\hat{\vartheta}_n(X^{(n)}) - \hat{A}_n^{1/2}(X^{(n)})\left(B\right) / \sqrt{n}.$$
 Vprašanje izbire množice $B$ lahko rešimo s predpostavko, da je to zaprta krogla s središčem v $0$ v neki normirani metriki, 
 s čimer se verjetno da dokazati enoličnost njenega radija. Če vzamemo normo $\norm{.}_2$, dobimo, da je območje zaupanja enako elipsi
-$$\hat{\vartheta}_n(X_1, \dots, X_n) + Q \sqrt{\Lambda} B / \sqrt{n},$$
+$$\hat{\vartheta}_n + Q_n \sqrt{\Lambda}_n B / \sqrt{n},$$
 kjer je $\hat{A}_n = Q_n \Lambda_n Q_n^T$ Schurova forma. Sicer pa je bolj priročno vzeti normo $\norm{.}_\infty$, saj lahko izrazimo 
 \begin{equation*}
 N(0,I)\left([-r,r]^2\right) = \left(N(0,1)([-r,r])\right)^2 = 1 - \alpha 
@@ -139,14 +136,15 @@ N(0,I)\left([-r,r]^2\right) = \left(N(0,1)([-r,r])\right)^2 = 1 - \alpha
 in dobimo, da je $r$ enak zgornjemu $((1 - \sqrt{1-\alpha})/2)$-percentilu porazdelitve $N(0,1)$. Podobno kot pri elipsi, tu dobimo paralelogram. Spodaj je prikazana realizacija tega paralelograma glede na dane podatke.
 \begin{center}
 \begin{figure}[h]
+\begin{center}
 \includegraphics[width=15cm]{graphics/ConfidenceParalelogram.png}
+\end{center}
 \end{figure}
 \end{center}
 
 
-
 \section{2}
-Naj bodo $X_i \sim P_\mu = N(\mu, \sigma_0)$ NEP za $i=1,\dots,n$ in fiksna $\sigma_0 \in \R^+$, $n\in\N$. Po Rao-Blackwellevem izreku lahko najdemo NCEND kot pogojno upanje nepristranske cenilke $\ind_{\{X_1 \leq 5\}}$  pogojno na kompletno in zadostno statistiko
+Naj bo $(X_i, \dots, X_n) \sim N(\mu, \sigma_0)^{\times n}$ za $i=1,\dots,n$ in $\sigma_0 \in \R^+$, $n\in\N$ fiksna. Po Rao-Blackwellovem izreku lahko najdemo NCEND kot pogojno upanje nepristranske cenilke $\ind_{\{X_1 \leq 5\}}$  pogojno na kompletno in zadostno statistiko
 $$\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i.$$
 Označimo $Y = \bar{X} - \mu$ in definirajmo
 $$\tilde{X} = X_1 - \zeta Y, \text{ kjer je } \zeta = P[X_1Y] / \sigma(Y)^2.$$
@@ -158,36 +156,35 @@ Sedaj lahko zapišemo
 \begin{aligned}
 P[\ind_{\{X_1 \leq 5\}} \mid \bar{X} = t] &= P(X_1 \leq 5 \mid \bar{X} = t) 
 = P(\tilde{X} + \zeta Y \leq 5 \mid Y + \mu = t) = P(\tilde{X} + \zeta (t - \mu) \leq 5) \\
-&= P(X_1 - \zeta (\bar{X} - \mu) + \zeta(t - \mu) \leq 5) = P(X_1 - \zeta \bar{X} \leq 5 + \zeta t).
+&= P(X_1 - \zeta (\bar{X} - \mu) + \zeta(t - \mu) \leq 5) = P(X_1 - \zeta \bar{X} \leq 5 - \zeta t).
 \end{aligned}
 \end{equation*}
 Konkretno:
 \begin{equation*}
-P[X_1Y] = P[(\sigma Z_1 + \mu)Y] = P[\sigma Z_1 Y] = P[\sigma Z_1 \sum_{i=1}^n \frac{\sigma}{n} Z_i] = \frac{\sigma^2}{n} P[Z_1^2]  = \frac{\sigma^2}{n},
+P[X_1Y] = P[(\sigma_0 Z_1 + \mu)Y] = P[\sigma_0 Z_1 Y] = P[\sigma_0 Z_1 \sum_{i=1}^n \frac{\sigma_0}{n} Z_i] = \frac{\sigma_0^2}{n} P[Z_1^2]  = \frac{\sigma^2}{n},
 \end{equation*}
-torej skupaj z dejstvom $\sigma(Y) = \sigma / \sqrt{n}$ dobimo $\zeta = 1$ in NCEND
-$$U(\bar{x}) = P(\sigma (1 + 1/\sqrt{n})Z \leq 5 + \bar{x}) = \Phi\left(\frac{5 + \bar{x}}{\sigma(1 + 1/\sqrt{n})}\right)$$
+torej skupaj z dejstvom $\sigma(Y) = \sigma_0 / \sqrt{n}$ dobimo $\zeta = n$ in NCEND
+$$U(\bar{x}) = P(\sigma_0 (1 + 1/\sqrt{n})Z \leq 5 - \bar{x}) = \Phi\left(\frac{5 - \bar{x}}{\sigma_0(1 + 1/\sqrt{n})}\right)$$
 
 \section{3}
 \subsection{}
-Fiksirajmo $n\in\N$ in označimo $P_\vartheta = \left(\int_{\_} f(k; \vartheta) dc(k)\right)^{\times n}$. Ker je
-$$
-f(k; \vartheta) = -\frac{\vartheta^k}{k\ln(1-\vartheta)} = -\frac{e^{k\ln(\vartheta)}}{k\ln(1-\vartheta)} \implies 
-f(k_1, \dots, k_n; \vartheta) = (-\ln(1-\vartheta))^{-n} \prod_{i=1}^n k_i^{-1} e^{\ln(\vartheta) \sum_{i=1}^n k_i}
-$$
+Fiksirajmo $n\in\N$ in označimo s $P_\vartheta$ $n$-razsežno produktno mero mere, inducirane z gostoto $f(\_, \vartheta)$. Ker je
+\begin{equation*}
+f(k_1, \dots, k_n; \vartheta) = \prod_{i=1}^n f(k_i; \vartheta) =  (-\ln(1-\vartheta))^{-n} \left(\prod_{i=1}^n k_i^{-1}\right) \exp\left(\ln(\vartheta) \sum_{i=1}^n k_i\right)
+\end{equation*}
 in $\ln((0,1))  = (-\infty, 0) \in \T_{EVK} \smallsetminus \{\emptyset\}$, je to eksponentni model s polnim rangom, 
 torej dobimo kompletno zadostno statistiko 
 $$T(k_1, \dots, k_n) = \sum_{i=1}^n k_i.$$
 
 \subsection{}
-Ker imamo eksponenten model s funkcijo $Q = \ln$, ki je strogo naraščajoča na $(0,1)$, lahko uporabimo Neuman-Pearsonovo
+Ker imamo eksponenten model s funkcijo $Q \equiv \ln$, ki je strogo naraščajoča na $(0,1)$, lahko uporabimo Neuman-Pearsonovo
 lemo za konstrukcijo enakomerno najmočnejših randomiziranih preizkusov. 
-Ker ima model druge momente si lahko pomagamo tudi z normalnimi aproksimacijami (ali asimptotično normalnostjo).
+Ker ima model druge momente, si lahko pomagamo tudi z normalnimi aproksimacijami (asimptotično normalnostjo).
 
 \subsection{}
 Poskušajmo postopati z Neuman-Pearsonovo lemo. Označimo torej $\vartheta_0 = 0.7$ in $\alpha = 0.05$.
 Potem imamo enakomerno najmočnejši randomiziran preizkus za $\vartheta \leq \vartheta_0$ proti alternativi
-$\vartheta \ge \vartheta_0$ v obliki
+$\vartheta > \vartheta_0$ v obliki
 $$
 \phi(k_1, \dots, k_n)= 
 \begin{cases}
@@ -198,13 +195,13 @@ $$
 $$
 kjer določimo $C \in\N$ in $\gamma \in [0,1)$ enolično s pogojem
 $$\beta(\vartheta_0) = P_{\vartheta_0}[\Phi] = P_{\vartheta_0}(T > C) + \gamma P_{\vartheta_0}(T = C) = \alpha.$$
-Idealno bi bilo imeti porazdelitev $T_n$, a ta vključuje izračun vsot, ki v splošnem nimajo zaključene oblike ($\sum_{k=1}^d \vartheta^k / k$). Če bi imeli dovolj majhen vzorec, to tudi ne bi bil problem, saj bi izračunali posamezne vrednosti gostote $T$ z brute-force varianto. Ker pa je vzorec velikosti $n=50$ relativno velik, tega ne moremo izvesti. Lahko pa zato $T$ aproksimiramo z normalno porazdelitvijo (po CLI). Računamo
+Idealno bi bilo imeti porazdelitev $T$, a ta vključuje izračun vsot, ki v splošnem nimajo zaključene oblike ($\sum_{k=1}^d \vartheta^k / k$). Če bi imeli dovolj majhen vzorec, to tudi ne bi bil problem, saj bi izračunali posamezne vrednosti gostote $T$ z brute-force varianto. Ker pa je vzorec velikosti $n=50$ relativno velik, tega ne moremo izvesti. Lahko pa zato $T$ aproksimiramo z normalno porazdelitvijo (po CLI). Računamo
 \begin{equation*}
 \begin{aligned}
 \mu_\vartheta 
 &:= P_{\vartheta}[\id] 
 = -\frac{1}{\ln(1 - \vartheta)} \sum_{k\in\N} \vartheta^k 
-= -\frac{\vartheta}{(1 - \vartheta)} \frac{1}{\ln(1 - \vartheta)} \\
+= - \frac{1}{\ln(1 - \vartheta)}\frac{\vartheta}{(1 - \vartheta)}  \\
 \sigma_\vartheta^2 
 &:= V_{\vartheta}[\id] 
 = P_{\vartheta}[\id^2] - P_{\vartheta}[\id]^2 
@@ -212,7 +209,7 @@ Idealno bi bilo imeti porazdelitev $T_n$, a ta vključuje izračun vsot, ki v sp
 = -\frac{1}{\ln(1 - \vartheta)} \frac{\vartheta}{(1-\vartheta)^2} - \mu_\vartheta^2.
 \end{aligned}
 \end{equation*}
-Označimo NEP model
+Označimo produktno mero
 $$\tilde{P}_\vartheta := N(\mu_\vartheta, \sigma_\vartheta^2)^{\times n}.$$
 Sedaj lahko ocenimo gostoto statistike $T$ kot
 $$P_\vartheta(T = k) \approx \tilde{P}_\vartheta(T \leq k) - \tilde{P}_\vartheta(T \leq k-1).$$
@@ -232,13 +229,20 @@ $$\gamma = \frac{\alpha +
 \Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) - 1}
 {\Phi\left(\frac{C/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right) -
 \Phi\left(\frac{(C-1)/n - \mu_{\vartheta_0}}{\sigma_{\vartheta_0} / \sqrt{n}}\right)} \in [0,1).$$
-Dobimo $C = 117$ in $\gamma \approx 0.9705$.
+Dobimo $C = 117$ in $\gamma \approx 0.9705$. Na spodnji sliki je prikazana funkcija moči dobljenega testa,
+kjer so vrednosti spet aproksimirane z normalno porazdelitvijo.
 \begin{center}
 \begin{figure}[h]
-\includegraphics[width=18cm]{graphics/FunkcijaMoci.png}
-\caption{Funkcija moči dobljenega testa, kje so vrednosti aproksimirane z normalno porazdelitvijo.}
+\begin{center}
+\includegraphics[width=13cm]{graphics/FunkcijaMoci.png}
+\end{center}
 \end{figure}
 \end{center}
+
+\subsection{}
+Najprej nas zanima, če je za dani $x$ preslikava $f(x, \vartheta)$ monotona v odvisnosti od $\vartheta$. Ker dobimo
+$$\frac{\partial f}{\partial\vartheta} (k, \vartheta) = -\frac{\vartheta^k}{k\ln(1-\vartheta)} \left(\frac{1}{(1-\vartheta)\ln(1-\vartheta)} + \frac{1}{\ln(\vartheta)}\right) < 0,$$
+sledi, da je preslikava padajoča. Iz tega sledi, da je padajoča $F_\vartheta$ in zato tudi $F_{T; \vartheta}$. Vzamemo $\alpha_1 = \alpha_2 = \alpha/2$ in realiziramo interval $[0.5215, 1)$, kjer so bile vse vrednosti spet aproksimirane normalno.
 
 \section{}
 \subsection{}
@@ -276,8 +280,10 @@ in
 Testiramo vse $0 \leq C_1(p_0) < n$ in $C_1(p_0) < C_2(p_0) \leq n$ in na vsaki iteraciji rešimo sistem dveh linearnih enačb za $\gamma_i(p_0)$. Vrnemo prve vrednosti, pri katerih velja $0 \leq \gamma_i(p_0) < 1$ za $i=1,2$.
 \begin{center}
 \begin{figure}[h]
-\includegraphics[width=18cm]{graphics/C1C2_18.png}
+\begin{center}
+\includegraphics[width=15cm]{graphics/C1C2_18.png}
 \caption{$C_1(p)$ in $C_2(p)$  na diskretizaciji $(0,1)$ na $1000$ točkah za $n=18$.}
+\end{center}
 \end{figure}
 \end{center}
 
@@ -318,7 +324,9 @@ Zaokroženo na $4$ decimalna mesta dobimo $\gamma_1(0.72) \approx 0.1787$ in $\g
 \subsection{}
 \begin{center}
 \begin{figure}[h]
-\includegraphics[width=18cm]{graphics/Pokritje.png}
+\begin{center}
+\includegraphics[width=15cm]{graphics/Pokritje.png}
+\end{center}
 \end{figure}
 \end{center}
 Ocena minimuma vrednosti na zgornjem grafu je $0.95502$, kar je naša ocena za koeficient zaupanja.
@@ -330,50 +338,53 @@ $$C_1 = 15 \quad C_2 = 24 \quad \gamma_1 \approx 0.6922 \quad \gamma_2 \approx 0
 \subsection{}
 \begin{center}
 \begin{figure}[h]
-\includegraphics[width=18cm]{graphics/C1C2_28.png}
+\begin{center}
+\includegraphics[width=15cm]{graphics/C1C2_28.png}
 \caption{$C_1(p)$ in $C_2(p)$  na diskretizaciji $(0,1)$ na $1000$ točkah za $n=28$}
+\end{center}
 \end{figure}
 \end{center}
 
 \section{}
-Označimo torej $p = (p_0, \dots, p_3)$ in
+Označimo $p = (p_0, \dots, p_3)$ in
 $$
 P_p = \left(
 \begin{array}{ll}
 \xi_0 \quad \xi_1 \quad \xi_2 \quad \xi_3 \\
 p_0 \quad p_1 \quad p_2 \quad p_3 \\
 \end{array}
-\right)^{\times n}.
+\right).
 $$
-Vemo, da velja
-$$T_i(x_1, \dots, x_n) = \sum_{j=1}^n \ind_{\{\xi_i\}}(x_j) \implies P_p \circ (T_0, T_1, T_2, T_{3})^{-1} = \text{Multi}(p,n).$$
+Vemo, da za multinomsko porazdelitev M velja
+$$T^n_i(x_1, \dots, x_n) = \sum_{j=1}^n \ind_{\{\xi_i\}}(x_j) \implies P_p^{\times n} \circ (T^n_0, T^n_1, T^n_2, T^n_{3})^{-1} = \text{M}(p,n).$$
+
 \subsection{}
-Računamo moč preizkusa hipoteze $p = \pi = (\pi_0, \pi_1, \pi_2, \pi_3) =  (3/32, 7/32, 9/32, 11/32)$.
+Računamo moč preizkusa hipoteze $p = \pi = (\pi_0, \pi_1, \pi_2, \pi_3) =  (3,7,9,13)/32$.
 \subsubsection{}
 Test je oblike
 $$
 \phi^1_n(x)= 
 \begin{cases}
-1 \mid  -2 \ln(\lambda_n(Tx)) > \chi_{3; \alpha}^2 \\
-0 \mid  -2 \ln(\lambda_b(Tx)) \leq \chi_{3; \alpha}^2 \\
-\end{cases}, \text{ kjer je }
+1 \mid  -2 \ln(\lambda_n(T^nx)) > \chi_{3; \alpha}^2 \\
+0 \mid  -2 \ln(\lambda_b(T^nx)) \leq \chi_{3; \alpha}^2 \\
+\end{cases} \text{za}\quad
 \lambda_n(t) = \prod_{j=0}^3 \left(\frac{n \pi_j}{t_j}\right)^{t_j}.
 $$
 Dobimo
 \begin{equation*}
-\beta^1_n = P_\pi[\phi^1_n] = P_\pi\left(-2\ln(\lambda_n \circ T\right) > \chi_{3;\alpha}^2) =
- \text{Multi}(\pi,n)\left(\left\{t\mid t_0 + t_1 + t_2 + t_3 = n \;\land\; -2\ln(\lambda_n(t)) > \chi_{3;\alpha}^2\right\}\right).
+\beta^1_n := P_\pi^{\times n}[\phi^1_n] = \text{M}(\pi,n)(-2\ln \circ \lambda_n > \chi_{3;\alpha}^2) =
+ \text{M}(\pi,n)\left(\left\{t\mid t_0 + t_1 + t_2 + t_3 = n \;\land\; -2\ln(\lambda_n(t)) > \chi_{3;\alpha}^2\right\}\right).
 \end{equation*}
-To množico računalniško ni zelo zahtevno parametrizirati. Ko to naredimo, dobimo
+Te množice računalniško ni zelo zahtevno parametrizirati. Ko to naredimo, dobimo spodnjo tabelo.
 \begin{center}
 \begin{tabular}{|l|l| }
 \hline
 $n$ & $\beta^1_n$ \\
 \hline
-$35$ & $0.000019330779246711946$ \\
-$65$ & $0.00016696632438189583$ \\
-$95$ & $0.0011870347621621064$ \\
-$125$ & $0.007041048805908646$  \\
+$35$ & $0.0630609253830682$ \\
+$65$ & $0.05392789603324363$ \\
+$95$ & $0.052181085317432305$ \\
+$125$ & $0.051705991845782534$  \\
 \hline
 \end{tabular}
 \end{center}
@@ -383,25 +394,25 @@ Test je oblike
 $$
 \phi^2_n(x)= 
 \begin{cases}
-1 \mid \tau_n(Tx) > \chi_{3; \alpha}^2 \\
-0 \mid \tau_n(Tx) \leq \chi_{3; \alpha}^2
-\end{cases}, \text{ kjer je }
+1 \mid \tau_n(T^nx) > \chi_{3; \alpha}^2 \\
+0 \mid \tau_n(T^nx) \leq \chi_{3; \alpha}^2
+\end{cases} \text{za}\quad
 \tau_n(t) = \sum_{j=0}^3 \frac{(t_j - n\pi_j)^2}{n\pi_j}.
 $$
-Spet izrazimo
+Spet definiramo
 \begin{equation*}
-\beta^2_n = P_\pi[\phi^2_n] = P_\pi\left(\tau_n \circ T > \chi_{3;\alpha}^2\right)  =  \text{Multi}(\pi,n)\left(\left\{t \mid t_0 + t_1 + t_2 + t_3 = n \;\land\; \tau_n(t) > \chi_{3;\alpha}^2\right\}\right)
+\beta^2_n := P_\pi^{\times n}[\phi^2_n]
 \end{equation*}
-in dobimo
+in parametriziramo ter zmerimo ustrezno množico, da dobimo spodnjo tabelo.
 \begin{center}
 \begin{tabular}{ |l|l| }
 \hline
 $n$ & $\beta^2_n$ \\
 \hline
-$35$ & $0.06836781744193415$ \\
-$65$ & $0.09193396478820819$ \\
-$95$ & $0.11436093029694488$ \\
-$125$ & $0.13857104432656328$ \\
+$35$ & $0.048073432725070295$ \\
+$65$ & $0.04815898454028488$ \\
+$95$ & $0.049765599771549665$ \\
+$125$ & $0.04915904981481392$ \\
 \hline
 \end{tabular}
 \end{center}
@@ -411,44 +422,42 @@ $125$ & $0.13857104432656328$ \\
 Naj bo
 $$H = \{(p_0, p_1, p_2, p_3) \mid p_0 + p_1 + p_2 + p_3 = n \;\land\; p_1 + 2p_2 = 2/3\}.$$
 Za dani $x$ iščemo
-$$\sup_{p \in H} P_p(\{x\}) = \sup_{p \in H} \prod_{i=0}^3 p_i^{T_i(x)},$$
+$$\sup_{p \in H} P_p^{\times n}(\{x\}) = \sup_{p \in H} \prod_{i=0}^3 p_i^{T^n_i(x)},$$
 torej maksimiziramo funkcijo
 $$l(p) = t_0 \ln(p_0) + t_1 \ln(p_1) + t_2 \ln(p_2) + t_3 \ln(p_3) = t_0 \ln(1/3 + p_2 - p_3) + t_1 \ln(2/3 - 2p_2) + t_2\ln(p_2) + t_3\ln(p_3).$$
-Po enačenju parcialnih odvodov z $0$ dobimo ekstrem
-$$\hat{p}_2(t) = \frac{(t_0 - t_1 + t_3) + \sqrt{(t_0 - t_1 + t_3)^2 + 4 n t_2}}{6n} \quad \text{in} \quad \hat{p}_3(t) = \frac{t_3(p_2 + 1/3)}{t_0 + t_2}.$$
-Podajmo test
+Po enačenju parcialnih odvodov z $0$ dobimo ekstrem 
+$$\hat{p}_2(t) = \frac{(t_0 - t_1 + t_3) + \sqrt{(t_0 - t_1 + t_3)^2 + 4 n t_2}}{6n} \quad \text{in} \quad \hat{p}_3(t) = \frac{t_3(p_2 + 1/3)}{t_0 + t_2}$$
+in zaupamo, da je to maksimum. Podajmo test
 $$
 \phi^3_n(x)= 
 \begin{cases}
-1 \mid -2\ln(\zeta_n(Tx)) > \chi_{3;\alpha}^2 \\
-0 \mid -2\ln(\zeta_n(Tx)) \leq \chi_{3; \alpha}^2
-\end{cases}, \text{ kjer je }
+1 \mid -2\ln(\zeta_n(T^nx)) > \chi_{3;\alpha}^2 \\
+0 \mid -2\ln(\zeta_n(T^nx)) \leq \chi_{3; \alpha}^2
+\end{cases}\text{za}\quad
 \zeta_n(t) = \prod_{i=0}^3 \left(\frac{n\hat{p}_i(t)}{t_i}\right)^{t_i}.
 $$
-Asimptotični izrek za hipotezo $H$ velja, saj je $p \mapsto p_1 + 2p_2 - 2/3$ gladka submerzija, drugi pogoji pa so zadoščeni od prej.
+Asimptotični izrek za hipotezo $H$ velja, saj je $p \mapsto p_1 + 2p_2 - 2/3$ gladka submerzija, drugi pogoji pa so na parametričnem prostoru in gostoti porazdelitve, ki v tem primeru niso spremenjeni.
 
 \subsubsection{}
-Izbrali smo $\pi = (1,0,1,1)/3$ in dobili $34$ primerov, ko test zavrne hipotezo, torej delež je $34/9500 \approx 0.003579$.
+Izbrali smo $\pi = (2,2,1,1)/6$ in dobili $65$ primerov, ko test zavrne hipotezo, torej delež je $65/9500 \approx 0.00684$.
 
 \section{}
-Fiksirajmo $(m, n) = (3, 300)$ (dimenzije  podatkih) in $\alpha = 0.05$.
+Fiksirajmo $(m, n) = (3, 300)$ (dimenzije  podatkov) in $\alpha = 0.05$.
 \subsection{}
 \subsubsection{}
 Z reševanjem predoločenega sistema $X\hat{\beta} = y$, kjer je $X = [\text{1 TCH HDL TRI}]$ in $y = \text{LDL}$,  dobimo
-$$\hat{\beta}_0 = 0.05993031 \quad \hat{\beta}_1 = 0.83909446 \quad \hat{\beta}_2 = -0.64999293 \quad \hat{\beta}_3 = -0.2240437.$$
+$$\hat{\beta}_0 = 0.05993031, \quad \hat{\beta}_1 = 0.83909446, \quad \hat{\beta}_2 = -0.64999293, \quad \hat{\beta}_3 = -0.2240437.$$
+V nadaljevanju uporabljamo $\hat{y} = X \hat{\beta}$ in $\bar{y}$ povprečje vektorja $y$. 
 
 \subsubsection{}
-Označimo $\hat{y} = X \cdot \hat{\beta}$ in $\bar{y}$ povprečje vektorja $y$. 
 Hipotezo $\beta_1 = \beta_2 = \beta_3 = 0$ testiramo s Fisherjevo statistiko
 $$F = \frac{\sum (\hat{y}_i - \bar{y})^2 / m}{\sum (y_i - \hat{y}_i)^2 / (n-m-1)} \sim F_{m, n-m-1}.$$
-Hipotezo zavrnemo, če dobimo $F > F_{m, n-m-1, \alpha}$. Na našem vzorcu hipotezo zavrnemo, saj je
-$$F \approx 298.0651 \quad \text{in} \quad F_{m, n-m-1, \alpha} \approx 2.6351.$$
+Hipotezo zavrnemo, če je $F > F_{m, n-m-1; \alpha} \approx 2.6351$. Ker na našem vzorcu dobimo $F \approx 298.0651$, hipotezo zavrnemo.
 
 \subsubsection{}
 Hipotezo $\beta_0 = 0$ testiramo s Studentovo statistiko
 $$T = \frac{\hat{\beta}_0 - \beta_0}{\norm{y - \hat{y}}_2 \sqrt{\left((X^T X)^{-1}\right)_{(1,1)}/ (n-m-1)}} \sim t_{n-m-1}.$$
-Hipotezo zavrnemo, če je $|T| > t_{n-m-1, \alpha/2}$. Na našem vzorcu hipoteze ne moremo zavrniti, saj je
-$$T \approx 0.3079 \quad \text{in} \quad t_{n-m-1, \alpha/2} \approx 1.9680.$$
+Hipotezo zavrnemo, če je $|T| > t_{n-m-1; \alpha/2} \approx 1.9680$. Ker na našem vzorcu dobimo $T \approx 0.3079$, hipoteze ne moremo zavrniti.
 
 \subsection{}
 
@@ -459,7 +468,7 @@ $$\hat{\beta}_1 = 0.84615208 \quad \hat{\beta}_2 = -0.6445336 \quad \hat{\beta}_
 \subsubsection{}
 Hipotezo  $\beta = (1,-1,-0.54)$  testiramo s pomočjo območja zaupanja, konstruiranega v naslednji podpodnalogi. Zavrnemo jo s stopnjo značilnosti $\alpha$, če je
 $$\norm{\sqrt{\Lambda} Q^T (\hat{\beta} - \beta)}_2^2 > \frac{m \norm{y - \hat{y}}_2^2 F_{m, n-m; \alpha}}{n-m}.$$
-Na levi strani dobimo $33.667$, na desni pa $3.0564$ in zato zavrnemo. Hipotezo lahko testiramo tudi s kvadrom zaupanja iz naloge 6.2.4. in spet dobimo zavrnitev.
+Na levi strani dobimo $33.667$, na desni pa $3.0564$ in zato zavrnemo. Hipotezo lahko testiramo tudi s kvadrom zaupanja iz naloge 6.2.4. in spet zavrnemo.
 
 \subsubsection{}
 Imamo torej pivotno funkcijo
@@ -514,15 +523,15 @@ P(Y + Z \leq w) &= \sum_{z_k} P(Y \leq w - z_k) P(Z = z_k) = \sum_{z_k} \int_{-\
 &= \sum_{z_k} \int_{-\infty}^w f_Y(x - z_k) P(Z = z_k) dx = \int_{-\infty}^w \sum_{z_k} f_Y(x-z_k) P(Z = z_k) dx = \int_{-\infty}^w f_X(x) dx.
 \end{aligned}
 \end{equation*}
-Ker je $(x,z_k) \mapsto f_Y(x - z_k) P(Z = z_k)$ merljiva in vrsta konvergentna za vsak $x\in\R$ (je dominirana z $1$), je $f_X \in B_\R / B_\R$ (po enem od zrekov teorije mere). Zato je $f_X$ Lebesgueva gostota slučajne spremenljivke $X = Y + Z$.
+Ker je $(x,z_k) \mapsto f_Y(x - z_k) P(Z = z_k)$ merljiva in vrsta konvergentna za vsak $x\in\R$ (je dominirana z $1$), je $f_X \in B_\R / B_\R$ (po enem od izrekov teorije mere). Zato je $f_X$ Lebesgueva gostota slučajne spremenljivke $X = Y + Z$.
 
 \subsection{}
-Dobimo
+Za $x\geq0$ dobimo
 \begin{equation*}
 \begin{aligned}
 &f_X(x) = \sum_{k=0}^\infty \frac{c_k\lambda^k}{c(\lambda)}  \alpha (x-k)^{\alpha-1} \ind_{(0,1)}(x-k) 
-= \frac{\alpha c_{\floor{x}}}{c(\lambda)} \lambda^{\floor{x}} (x-\floor{x})^{\alpha-1} \\
-&\ln(f_X(x)) = \ln(\alpha/c(\lambda)) + \ln(c_{\floor{x}}) + \floor{x}\ln(\lambda) + (\alpha-1)\ln(x - \floor{x})
+= \frac{\alpha c_{\floor{x}}}{c(\lambda)} \lambda^{\floor{x}} (x-\floor{x})^{\alpha-1}, \\
+&\ln(f_X(x)) = \ln(\alpha/c(\lambda)) + \ln(c_{\floor{x}}) + \floor{x}\ln(\lambda) + (\alpha-1)\ln(x - \floor{x}).
 \end{aligned}
 \end{equation*}
 
@@ -530,10 +539,10 @@ Dobimo
 Izrazimo
 \begin{equation*}
 f_{(X_1, \dots, X_n)}(x_1, \dots, x_n) = \left(\frac{\alpha}{c(\lambda)}\right)^n \left(\prod_{i=1}^n c_{\floor{x_i}}\right)
-\exp\left(\adjscalar{\left[\ln(\lambda), \alpha-1\right], \left[\sum_{i=1}^n \floor{x_i}, \sum_{i=1}^n \ln(x_i - \floor{x_i})\right]}\right)
+\exp\left(\adjscalar{\left[\ln(\lambda), \alpha-1\right], \left[\sum_{i=1}^n \floor{x_i}, \sum_{i=1}^n \ln(x_i - \floor{x_i})\right]}\right).
 \end{equation*}
 Po Fisher-Neymanovem izreku dobimo zadostnost statistike 
 $$T(x_1, \dots, x_n) = \sum_{i=1}^n (\floor{x_i}, \ln(x_i - \floor{x_i})),$$
-ker pa imamo eksponentni model s polnim rangom, sledi še, da je ta statistika tudi zadostna. Pripomnimo, da je verjetnost dogodka $\{X_i = \floor{X_i}\}$ enaka nič.
+ker pa imamo eksponentni model s polnim rangom, sledi še, da je ta statistika tudi zadostna. Pripomnimo, da je verjetnost dogodka $\{X_i = \floor{X_i}\}$ enaka nič in da sta $T$ in $x \mapsto \prod_{i=1}^n c_{\floor{x_i}}$ Borelovi, saj ju lahko zapišemo kot vrsto konstantno pomnoženih indikatorjev (po predpostavki pa je slednja še nenegativna).
 
 \end{document}

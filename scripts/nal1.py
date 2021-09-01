@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import norm as N
-from scipy.linalg import schur
+from scipy.linalg import schur, sqrtm
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from defaultAx import getAx
@@ -21,11 +21,12 @@ def g(x1,x2,x3):
 
 def JordanG(x1,x2,x3):
     t = (x1 * x3 - x2**2)**2
-    J12 = (x1 * x3**2 - 3 * x2**2 * x3) / t
-    J13 = -x2**2 / t
+    J12 = (x1 * x3**2 + x2**2 * x3) / t
+    J13 = -x2**3 / t
+    J31 = (-2 * x1 * x2 * x3**2 + x2**3 * x3) / (x1**2 * t)
     return np.array([
         [-x2 * x3 / t, J12, J13],
-        [x2 / x1**2 * x3, J12 / x1, J13 / x1]
+        [J31, J12 / x1, J13 / x1]
     ])
 
 def confidenceArea(X, alpha):
@@ -40,14 +41,13 @@ def confidenceArea(X, alpha):
     ])
     Jg = JordanG(m[1], m[2], m[3])
     A = Jg @ E @ Jg.T
-    L, Q = schur(A)
-
-    L = np.diagflat(np.sqrt(np.diagonal(L)))
-    return ((Q @ L @ Q.T) / np.sqrt(len(X)), g(m[1], m[2], m[3]), nalpha2)
+    A2 = sqrtm(np.round(A,10))
+    
+    return (A2 / np.sqrt(len(X)), g(m[1], m[2], m[3]), nalpha2)
     
 if __name__ == '__main__':
     alpha = 0.05
-    k = 300
+    k = 2
     file = 'podatki_1.txt'
     X = getData(file)
     A, theta, nalpha2 = confidenceArea(X, alpha)
@@ -62,7 +62,14 @@ if __name__ == '__main__':
             P1[i,j] = v[0]
             P2[i,j] = v[1]
 
+    print(nalpha2 * A, theta)
+    edges = list(zip(
+        [P1[0,0], P1[0,1], P1[1,1], P1[1,0], P1[0,0]],
+        [P2[0,0], P2[0,1], P2[1,1], P2[1,0], P2[0,0]]
+    ))
+    print(edges)
+
     ax = getAx('', 'a', 'b')
-    ax.scatter(P1.flatten(), P2.flatten(), s=1, c='gray')
+    ax.plot(*zip(*edges), c='gray')
     plt.show()
     

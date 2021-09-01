@@ -1,25 +1,19 @@
 import math
 from operator import mul
 from functools import reduce
-from random import choice
+from numpy.random import choice
 from scipy.stats import multinomial, chi2
 
-N = [35, 65, 95, 125]
-alpha = 0.05
-pi = [3/32, 7/32, 9/32, 11/32]
-chi = chi2.ppf(1-alpha, 3)
-c = math.exp(-2 * chi)
-
-prod = lambda x: reduce(mul, x)
+prod = lambda k: reduce(mul,k)
 lambd = lambda n,t: prod([
-    ((n * pi[i]) / (t[i]))**(t[i]) if t[i] != 0 else 1
+    pow(n * pi[i] / t[i], t[i]) if t[i] != 0 else 1
     for i in range(len(t))
 ])
 tau = lambda n,t: sum([
     (t[i] - n * pi[i])**2 / (n * pi[i]) for i in range(len(t))
 ])
 
-def power(n, condition):
+def testPower(n, condition):
     s = 0
     for t0 in range(n+1):
         for t1 in range(n+1-t0):
@@ -29,7 +23,7 @@ def power(n, condition):
                     s += multinomial.pmf([t0,t1,t2,t3],n,pi)
     return s
 
-def test(n, t):
+def testValues(n, t):
     a = n
     b = -(t[0] + t[3] - t[1]) / 3
     c = -t[2] / 9
@@ -46,13 +40,36 @@ def test(n, t):
         q = prod([p[i]**t[i] if t[i] != 0 else 1 for i in range(4)])
         return q / r
 
-N, n = 9500, 45
-z = 0
-C = [0,2,3]
-for N in range(N):
-    T = {0:0, 1:0, 2:0, 3:0}
-    for _ in range(n): T[choice(C)] += 1
-    s = test(n, list(T.values()))
-    if -2 * math.log(s) > chi: z += 1
+def initTest(N, n):
+    z = 0
+    vals = [0,1,2,3]
+    probs = [1/3, 1/3, 1/6, 1/6]
+    for N in range(N):
+        T = {0: 0, 1: 0, 2: 0, 3: 0}
+        values = choice(vals, n, p=probs)
+        for v in values: T[v] += 1
+        s = testValues(n, list(T.values()))
+        if -2 * math.log(s) > chi: z += 1
+    print(z)
+            
+
+if __name__ == '__main__':
+    #initTest(N,n)
+
+    alpha = 0.05
+    pi = [3/32, 7/32, 9/32, 13/32]
+    chi = chi2.ppf(1-alpha, 3)
+
+    '''
+    for n in [35, 65, 95, 125]:
+        condition = lambda t: -2*math.log(lambd(n, t)) > chi
+        s = testPower(n, condition)
+        print(f'${n}$ & ${s}$ \\\\')
+    '''
+
+    initTest(9500, 45)
+
+    
+    
     
     
