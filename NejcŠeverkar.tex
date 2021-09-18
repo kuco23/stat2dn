@@ -123,7 +123,7 @@ $$\pi_n(X^{(n)}, \vartheta) := \sqrt{n} \cdot \hat{A}_n^{-1/2}(X^{(n)}) \left(\h
 Naj bo $B \subset \R^2$ neka množica, ki zadošča
 $$P(\pi_n(X^{(n)}, \vartheta) \in B) \approx N(0,I)(B) = 1 - \alpha.$$
 Sledi
-$$P(\pi_n(X^{(n)}), \vartheta) \in B) = P_{\vartheta}^{\times n}(\hat{\vartheta}_n - \vartheta \in \hat{A}_n^{1/2})\left(B\right) / \sqrt{n}) = P_{\vartheta}^{\times n}(\vartheta \in \hat{\vartheta}_n - \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}),$$
+$$P(\pi_n(X^{(n)}, \vartheta) \in B) = P_{\vartheta}^{\times n}(\hat{\vartheta}_n - \vartheta \in \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}) = P_{\vartheta}^{\times n}(\vartheta \in \hat{\vartheta}_n - \hat{A}_n^{1/2}\left(B\right) / \sqrt{n}),$$
 torej je območje zaupanja za $\vartheta$ enako
 $$\hat{\vartheta}_n(X^{(n)}) - \hat{A}_n^{1/2}(X^{(n)})\left(B\right) / \sqrt{n}.$$
 Vprašanje izbire množice $B$ lahko rešimo s predpostavko, da je to zaprta krogla s središčem v $0$ v neki normirani metriki, 
@@ -144,7 +144,7 @@ in dobimo, da je $r$ enak zgornjemu $((1 - \sqrt{1-\alpha})/2)$-percentilu poraz
 
 
 \section{2}
-Naj bo $(X_i, \dots, X_n) \sim N(\mu, \sigma_0)^{\times n}$ za $i=1,\dots,n$ in $\sigma_0 \in \R^+$, $n\in\N$ fiksna. Po Rao-Blackwellovem izreku lahko najdemo NCEND kot pogojno upanje nepristranske cenilke $\ind_{\{X_1 \leq 5\}}$  pogojno na kompletno in zadostno statistiko
+Naj bo $(X_1, \dots, X_n) \sim N(\mu, \sigma_0)^{\times n}$ in $\sigma_0 \in \R^+$, $n\in\N$ fiksna. Po Rao-Blackwellovem izreku lahko najdemo NCEND kot pogojno upanje nepristranske cenilke $\ind_{\{X_1 \leq 5\}}$  pogojno na kompletno in zadostno statistiko
 $$\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i.$$
 Označimo $Y = \bar{X} - \mu$ in definirajmo
 $$\tilde{X} = X_1 - \zeta Y, \text{ kjer je } \zeta = P[X_1Y] / \sigma(Y)^2.$$
@@ -161,9 +161,9 @@ P[\ind_{\{X_1 \leq 5\}} \mid \bar{X} = t] &= P(X_1 \leq 5 \mid \bar{X} = t)
 \end{equation*}
 Konkretno:
 \begin{equation*}
-P[X_1Y] = P[(\sigma_0 Z_1 + \mu)Y] = P[\sigma_0 Z_1 Y] = P[\sigma_0 Z_1 \sum_{i=1}^n \frac{\sigma_0}{n} Z_i] = \frac{\sigma_0^2}{n} P[Z_1^2]  = \frac{\sigma^2}{n},
+P[X_1Y] = P[(\sigma_0 Z_1 + \mu)Y] = P[\sigma_0 Z_1 Y] = P[\sigma_0 Z_1 \sum_{i=1}^n \frac{\sigma_0}{n} Z_i] = \frac{\sigma_0^2}{n} P[Z_1^2]  = \frac{\sigma_0^2}{n},
 \end{equation*}
-torej skupaj z dejstvom $\sigma(Y) = \sigma_0 / \sqrt{n}$ dobimo $\zeta = n$ in NCEND
+torej skupaj z dejstvom $\sigma(Y) = \sigma_0 / \sqrt{n}$ dobimo $\zeta = 1$ in NCEND
 $$U(\bar{x}) = P(\sigma_0 (1 + 1/\sqrt{n})Z \leq 5 - \bar{x}) = \Phi\left(\frac{5 - \bar{x}}{\sigma_0(1 + 1/\sqrt{n})}\right)$$
 
 \section{3}
@@ -240,7 +240,7 @@ kjer so vrednosti spet aproksimirane z normalno porazdelitvijo.
 \end{center}
 
 \subsection{}
-Najprej nas zanima, če je za dani $x$ preslikava $f(x, \vartheta)$ monotona v odvisnosti od $\vartheta$. Ker dobimo
+Najprej nas zanima, če je za dani $k$ preslikava $f(k, \vartheta)$ monotona v odvisnosti od $\vartheta$. Ker dobimo
 $$\frac{\partial f}{\partial\vartheta} (k, \vartheta) = -\frac{\vartheta^k}{k\ln(1-\vartheta)} \left(\frac{1}{(1-\vartheta)\ln(1-\vartheta)} + \frac{1}{\ln(\vartheta)}\right) < 0,$$
 sledi, da je preslikava padajoča. Iz tega sledi, da je padajoča $F_\vartheta$ in zato tudi $F_{T; \vartheta}$. Vzamemo $\alpha_1 = \alpha_2 = \alpha/2$ in realiziramo interval $[0.5215, 1)$, kjer so bile vse vrednosti spet aproksimirane normalno.
 
@@ -333,7 +333,7 @@ Ocena minimuma vrednosti na zgornjem grafu je $0.95502$, kar je naša ocena za k
 
 \subsection{}
 Program nam vrne
-$$C_1 = 15 \quad C_2 = 24 \quad \gamma_1 \approx 0.6922 \quad \gamma_2 \approx 0.0029$$
+$$C_1 = 15, \quad C_2 = 24, \quad \gamma_1 \approx 0.6922, \quad \gamma_2 \approx 0.0029.$$
 
 \subsection{}
 \begin{center}
@@ -463,7 +463,7 @@ Hipotezo zavrnemo, če je $|T| > t_{n-m-1; \alpha/2} \approx 1.9680$. Ker na na�
 
 \subsubsection{}
 Z reševanjem predoločenega sistema $X\hat{\beta} = y$, kjer je $X = [\text{TCH HDL TRI}]$ in $y = \text{LDL}$,  dobimo
-$$\hat{\beta}_1 = 0.84615208 \quad \hat{\beta}_2 = -0.6445336 \quad \hat{\beta}_3 =-0.2225561.$$
+$$\hat{\beta}_1 = 0.84615208, \quad \hat{\beta}_2 = -0.6445336, \quad \hat{\beta}_3 =-0.2225561.$$
 
 \subsubsection{}
 Hipotezo  $\beta = (1,-1,-0.54)$  testiramo s pomočjo območja zaupanja, konstruiranega v naslednji podpodnalogi. Zavrnemo jo s stopnjo značilnosti $\alpha$, če je
@@ -543,6 +543,6 @@ f_{(X_1, \dots, X_n)}(x_1, \dots, x_n) = \left(\frac{\alpha}{c(\lambda)}\right)^
 \end{equation*}
 Po Fisher-Neymanovem izreku dobimo zadostnost statistike 
 $$T(x_1, \dots, x_n) = \sum_{i=1}^n (\floor{x_i}, \ln(x_i - \floor{x_i})),$$
-ker pa imamo eksponentni model s polnim rangom, sledi še, da je ta statistika tudi zadostna. Pripomnimo, da je verjetnost dogodka $\{X_i = \floor{X_i}\}$ enaka nič in da sta $T$ in $x \mapsto \prod_{i=1}^n c_{\floor{x_i}}$ Borelovi, saj ju lahko zapišemo kot vrsto konstantno pomnoženih indikatorjev (po predpostavki pa je slednja še nenegativna).
+ker pa imamo eksponentni model s polnim rangom, sledi še, da je ta statistika tudi zadostna. Pripomnimo, da je verjetnost dogodka $\{X_i = \floor{X_i}\}$ enaka nič in da sta $T$ in $x \mapsto \prod_{i=1}^n c_{\floor{x_i}}$ Borelovi, saj ju lahko zapišemo s pomočjo vrste indikatorjev (po predpostavki pa je slednja še nenegativna).
 
 \end{document}
